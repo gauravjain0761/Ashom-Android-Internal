@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/btn_color"
+    tools:context=".presentation.home.HomeFrag">
+    <include
+        android:id="@+id/mtoolbar"
+        layout="@layout/toolbar"
+        />
+
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:background="@drawable/page_bg"
+           app:layout_constraintTop_toBottomOf="@id/mtoolbar"
+           app:layout_constraintBottom_toBottomOf="parent"
+           android:layout_height="0dp">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:id="@+id/home_searcgh_cont"
+               android:layout_width="match_parent"
+               android:background="@drawable/et_search_bg"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               android:layout_marginTop="8dp"
+               android:layout_marginHorizontal="2dp"
+               android:layout_height="wrap_content">
+               <EditText
+                   android:id="@+id/home_search"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:paddingVertical="10dp"
+                   android:singleLine="true"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintEnd_toStartOf="@id/home_search_icon"
+                   android:background="@android:color/transparent"
+                   android:hint=" Search Company"
+                   android:textSize="15sp"
+                   android:textColorHint="#E3E2E2"
+                   android:textColor="@color/black"
+                   android:paddingHorizontal="15dp"
+                   android:elevation="10dp" />
+               <ImageView
+                   android:id="@+id/home_search_icon"
+                   android:layout_width="35dp"
+                   android:layout_height="0dp"
+                   android:layout_marginEnd="2dp"
+                   android:padding="8dp"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   android:src="@drawable/search_icon"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:tint="@color/black" />
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
+           <androidx.cardview.widget.CardView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:cardElevation="12dp"
+
+               android:layout_marginTop="5dp"
+               app:cardBackgroundColor="@color/white"
+               app:layout_constraintTop_toBottomOf="@id/home_searcgh_cont"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               >
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/search_rv"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   tools:listitem="@layout/item_search_list"
+                   tools:itemCount="0"
+                   android:elevation="10dp"
+                   android:background="@color/white"
+                   app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+           </androidx.cardview.widget.CardView>
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="0dp"
+               app:layout_constraintTop_toBottomOf="@id/home_searcgh_cont"
+               android:background="@drawable/page_bg"
+               app:layout_constraintBottom_toBottomOf="parent">
+
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:id="@+id/container"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:paddingBottom="5dp"
+              android:paddingHorizontal="10dp"
+              app:layout_constraintTop_toTopOf="parent"
+              app:layout_constraintBottom_toBottomOf="parent"
+              >
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_financial_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_marginTop="5dp"
+                    app:cardElevation="2dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="#B372C4F1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/cv_stock_prices"
+                    >
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/et_search_bg"
+                        android:backgroundTint="@color/white"
+                        android:layout_margin="0.5dp"
+                        app:cardCornerRadius="10dp"
+                        >
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/financialReportsIcon"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/company_financial"
+                            app:roundPercent="1"
+                            android:background="@color/white"
+                            android:padding="20dp"
+                            android:elevation="2dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/home_company_financial_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:fontFamily="@font/helvetica"
+                            android:text="Company Financial Reports"
+                            android:textColor="#00002f"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:layout_constraintBottom_toTopOf="@id/home_company_financial_hint"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/financialReportsIcon"
+                            app:layout_constraintTop_toTopOf="@id/financialReportsIcon" />
+                        <TextView
+                            android:id="@+id/home_company_financial_hint"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#B3757575"
+                            android:text="View quarterly and annual financial statements, auditors' opinions, and complete set of company financial notes covering 700+ traded equities in the GCC countries (KSA, UAE, Kuwait, Bahrain, Qatar, Oman)"
+                            android:textSize="13sp"
+                            android:maxLines="4"
+                            android:fontFamily="@font/helvetica"
+                            android:textAlignment="viewStart"
+                            android:ellipsize="end"
+                            android:layout_marginHorizontal="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/financialReportsIcon"
+                            app:layout_constraintTop_toBottomOf="@id/home_company_financial_title"
+                            app:layout_constraintBottom_toBottomOf="@id/financialReportsIcon"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_stock_prices"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="2dp"
+                    app:cardElevation="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginVertical="10dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="#B372C4F1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_financial_report"
+                    app:layout_constraintBottom_toTopOf="@+id/cv_new_click">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:background="@drawable/et_search_bg"
+                        android:backgroundTint="@color/white"
+                        android:layout_margin="0.5dp"
+                        app:cardCornerRadius="10dp"
+                        android:layout_height="match_parent">
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/stockPriceIcon"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/stock_price_chart"
+                            app:roundPercent="1"
+                            android:background="@color/white"
+                            android:padding="20dp"
+                            android:elevation="2dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/home_stock_price_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#00002f"
+                            android:text="Stock Prices"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/helvetica"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            android:layout_marginHorizontal="10dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/home_stock_price_hint"
+                            app:layout_constraintStart_toEndOf="@+id/stockPriceIcon"
+                            app:layout_constraintTop_toTopOf="@id/stockPriceIcon"
+                            />
+
+                        <TextView
+                            android:id="@+id/home_stock_price_hint"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#B3757575"
+                            android:text="Browse price that a share of stock is trading for on the GCC market"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/helvetica"
+                            android:maxLines="2"
+                            android:textAlignment="viewStart"
+                            android:layout_marginHorizontal="10dp"
+                            android:ellipsize="end"
+                            app:layout_constraintTop_toBottomOf="@+id/home_stock_price_title"
+                            app:layout_constraintStart_toEndOf="@id/stockPriceIcon"
+                            app:layout_constraintBottom_toBottomOf="@id/stockPriceIcon"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_new_click"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/cv_stock_prices"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_marginTop="5dp"
+                    app:cardElevation="2dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="18dp"
+                    app:cardBackgroundColor="@color/app_color"
+                    app:cardCornerRadius="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:background="@drawable/et_search_bg"
+                        android:backgroundTint="@color/white"
+                        android:layout_margin="0.5dp"
+                        app:cardCornerRadius="10dp"
+                        android:layout_height="match_parent">
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/homeNewsIcon"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/newspaper"
+                            app:roundPercent="1"
+                            android:background="@color/white"
+                            android:padding="20dp"
+                            android:elevation="2dp"
+                            android:layout_marginStart="10dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/home_company_news_title"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#00002f"
+                            android:text="News"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/helvetica"
+                            app:layout_constraintVertical_chainStyle="packed"
+                            android:layout_marginHorizontal="10dp"
+                            app:layout_constraintTop_toTopOf="@id/homeNewsIcon"
+                            app:layout_constraintStart_toEndOf="@id/homeNewsIcon"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/home_company_news_hint"
+                            />
+                        <TextView
+                            android:id="@+id/home_company_news_hint"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="#B3757575"
+                            android:text="Browse up-to-date news covering the GCC countries"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/helvetica"
+                            android:ems="3"
+                            android:textAlignment="viewStart"
+                            android:layout_marginHorizontal="10dp"
+                            android:ellipsize="end"
+                            app:layout_constraintStart_toEndOf="@id/homeNewsIcon"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/home_company_news_title"
+                            app:layout_constraintBottom_toBottomOf="@id/homeNewsIcon"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+
+
+
+
+          </androidx.constraintlayout.widget.ConstraintLayout>
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

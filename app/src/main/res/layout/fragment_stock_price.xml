@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/btn_color"
+    tools:context=".presentation.home.stockPrice.StockListFragment">
+
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/page_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/stockPriceLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/helvetica_bold"
+        android:text="@string/stock_prices_lbl"
+        android:textColor="#00002f"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:elevation="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stockPriceLbl" />
+
+    <EditText
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:background="@android:color/transparent"
+        android:elevation="3dp"
+        android:hint="@string/search_lbl"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="#757575"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/searchView"
+        app:layout_constraintEnd_toStartOf="@id/home_search_icon"
+        app:layout_constraintStart_toStartOf="@id/searchView"
+        app:layout_constraintTop_toTopOf="@id/searchView" />
+
+    <ImageView
+        android:id="@+id/home_search_icon"
+        android:layout_width="35dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="@string/search_hint"
+        android:elevation="4dp"
+        android:padding="8dp"
+        android:src="@drawable/search_icon"
+        app:layout_constraintBottom_toBottomOf="@id/searchView"
+        app:layout_constraintEnd_toEndOf="@id/searchView"
+        app:layout_constraintTop_toTopOf="@id/searchView"
+        app:tint="@color/black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/countryRv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="10dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_country" />
+
+
+    <View
+        android:id="@+id/headTitleView"
+        android:layout_width="@dimen/_145sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_marginTop="10dp"
+        android:background="@color/grey_300"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/countryRv" />
+
+    <TextView
+        android:id="@+id/companyNameLbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/segoe_ui"
+        android:paddingVertical="@dimen/_10sdp"
+        android:text="@string/ticker_company_name_lbl"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableRight="@drawable/ic_arrow_up_stock_list"
+
+        app:layout_constraintBottom_toBottomOf="@id/headTitleView"
+        app:layout_constraintStart_toStartOf="@id/headTitleView"
+        app:layout_constraintTop_toTopOf="@id/headTitleView" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:visibility="gone"
+        android:id="@+id/companySort"
+        android:layout_width="@dimen/_11sdp"
+        android:layout_height="@dimen/_11sdp"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:paddingBottom="@dimen/_1sdp"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:src="@drawable/ic_arrow_up_stock_list"
+        app:layout_constraintBottom_toBottomOf="@id/companyNameLbl"
+        app:layout_constraintStart_toEndOf="@id/companyNameLbl"
+        app:layout_constraintTop_toTopOf="@id/companyNameLbl" />
+
+    <HorizontalScrollView
+        android:id="@+id/topLabelScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="@id/headTitleView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/headTitleView"
+        app:layout_constraintTop_toTopOf="@id/headTitleView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/headLblViews"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_28sdp"
+                android:background="@color/grey_300"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/industryLbl"
+                android:layout_width="@dimen/_65sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:fontFamily="@font/segoe_ui"
+                android:text="@string/industry_lbl"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_down_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/headLblViews"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/headLblViews" />
+
+
+            <TextView
+                android:id="@+id/lastLbl"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@string/last"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_down_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/headLblViews"
+                app:layout_constraintStart_toEndOf="@id/industryLbl"
+                app:layout_constraintTop_toTopOf="@id/headLblViews" />
+
+            <TextView
+                android:id="@+id/openLbl"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/open_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/headLblViews"
+                app:layout_constraintStart_toEndOf="@+id/lastLbl"
+                app:layout_constraintTop_toTopOf="@id/headLblViews" />
+
+            <TextView
+                android:id="@+id/highLbl"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/high_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/headLblViews"
+                app:layout_constraintStart_toEndOf="@+id/openLbl"
+                app:layout_constraintTop_toTopOf="@id/headLblViews" />
+
+            <TextView
+                android:id="@+id/lowLbl"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/low_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/headLblViews"
+                app:layout_constraintStart_toEndOf="@+id/highLbl"
+                app:layout_constraintTop_toTopOf="@id/headLblViews" />
+
+            <TextView
+                android:id="@+id/closeLbl"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/close_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/industryLbl"
+                app:layout_constraintStart_toEndOf="@+id/lowLbl"
+                app:layout_constraintTop_toTopOf="@id/industryLbl" />
+
+            <TextView
+                android:id="@+id/changeLbl"
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/change_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/industryLbl"
+                app:layout_constraintStart_toEndOf="@+id/closeLbl"
+                app:layout_constraintTop_toTopOf="@id/industryLbl" />
+
+
+            <TextView
+                android:id="@+id/changePercentLbl"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/change_per_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/industryLbl"
+                app:layout_constraintStart_toEndOf="@+id/changeLbl"
+                app:layout_constraintTop_toTopOf="@id/industryLbl" />
+
+            <TextView
+                android:id="@+id/volumeLbl"
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="end"
+                android:text="@string/volume_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/industryLbl"
+                app:layout_constraintStart_toEndOf="@+id/changePercentLbl"
+                app:layout_constraintTop_toTopOf="@id/industryLbl" />
+
+            <TextView
+                android:id="@+id/dateLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="center"
+                android:text="@string/date_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:paddingStart="@dimen/_5sdp"
+
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/industryLbl"
+                app:layout_constraintStart_toEndOf="@+id/volumeLbl"
+                app:layout_constraintTop_toTopOf="@id/industryLbl"
+                app:layout_constraintVertical_bias="0.473" />
+
+            <TextView
+                android:id="@+id/exchangeLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoe_ui"
+                android:gravity="center"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_50sdp"
+                android:text="@string/exchange_lbl"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:layout_marginStart="@dimen/_25sdp"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableRight="@drawable/ic_arrow_up_stock_list"
+                app:layout_constraintBottom_toBottomOf="@id/industryLbl"
+                app:layout_constraintStart_toEndOf="@+id/dateLbl"
+                app:layout_constraintTop_toTopOf="@id/industryLbl"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:context=".MainActivity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headTitleView">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@id/rv0"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <HorizontalScrollView
+            android:id="@+id/stockPriceHSV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@id/rv1"
+            app:layout_constraintTop_toTopOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toEndOf="@id/rv1"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        </HorizontalScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stockPricesTitleRv"
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="0dp"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headTitleView"
+                tools:itemCount="20"
+                tools:listitem="@layout/item_ticker_company_name" />
+
+            <HorizontalScrollView
+                android:id="@+id/stockPriceHSV"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/stockPricesTitleRv"
+                app:layout_constraintTop_toBottomOf="@id/headTitleView">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stockPricesRv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/headTitleView"
+                    tools:itemCount="20"
+                    tools:listitem="@layout/item_stocks_prices" />
+
+            </HorizontalScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

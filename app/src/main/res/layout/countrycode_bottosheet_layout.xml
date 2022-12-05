@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/page_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/country_code_cancel"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        app:civ_border_color="@color/app_color"
+        app:civ_border_width="2dp"
+        android:elevation="5dp"
+        android:layout_margin="10dp"
+        android:rotation="45"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/black" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/country_code_view"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:cardBackgroundColor="#4DFFFFFF"
+        android:alpha="0"
+        app:layout_constraintTop_toTopOf="@id/country_code_cancel"
+        app:layout_constraintBottom_toBottomOf="@id/country_code_cancel"
+        app:layout_constraintStart_toStartOf="@id/country_code_cancel"
+        app:layout_constraintEnd_toEndOf="@id/country_code_cancel"
+        app:cardCornerRadius="100dp"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/country_code_cancel"
+        app:layout_constraintStart_toEndOf="@id/country_code_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/country_code_cancel"
+        android:text="Select a Country"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/countrycode_list_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/country_item_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="10dp"
+        app:layout_constraintTop_toBottomOf="@id/country_code_cancel"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="12dp"
+        android:drawableEnd="@drawable/ic_baseline_search_24"
+        android:drawableTint="@color/black"
+        android:hint="Search"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColorHint="#E3E2E2"
+        android:textColor="@color/black"
+        android:paddingHorizontal="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="800dp"
+        app:layout_constraintTop_toBottomOf="@id/countrycode_list_search"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/countrycodeList_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/countrycode_list_search"
+        tools:listitem="@layout/item_country_code_list"
+        android:elevation="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layoutAnimation="@anim/recycler_layout_animation"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

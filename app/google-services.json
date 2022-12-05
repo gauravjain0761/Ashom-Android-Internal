@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "902457448135",
+    "project_id": "ashom-277f0",
+    "storage_bucket": "ashom-277f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902457448135:android:b92be677a6a169de76d0e2",
+        "android_client_info": {
+          "package_name": "com.ashomapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902457448135-id3akvu4lh553h1mb6in0l8ko8fo9arg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh5cFzmwuToNfBHSabq-RS-v0x830Mw64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902457448135-id3akvu4lh553h1mb6in0l8ko8fo9arg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "902457448135-cjk6cm3qipb93nrqugjvptsl5pn1773f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ashom.ashomApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

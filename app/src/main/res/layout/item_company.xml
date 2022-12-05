@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="15dp"
+        >
+
+        <ImageView
+            android:id="@+id/item_company_img"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <TextView
+            android:id="@+id/item_company_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/item_company_img"
+            android:textSize="11sp"
+            tools:text="Abdullaha A. M. AI-Khodari"
+            android:textAlignment="center"
+            android:gravity="center"
+             android:maxLines="2"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="15dp"
+            />
+        <TextView
+            android:id="@+id/item_company_symbol_ticker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/item_company_name"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:visibility="gone"
+            tools:text="Ma'aden Mining"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginHorizontal="20dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+</layout>

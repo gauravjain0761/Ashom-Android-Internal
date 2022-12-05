@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+        <TextView
+            android:id="@+id/companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_18ssp"
+            android:text="RIYAD BANK"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/textcolor"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="25 Sep 2022 - 28 Sep 2022"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+        <TextView
+            android:id="@+id/closeLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Close: "
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toEndOf="@id/date"
+            app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="37.55"
+            android:textColor="@color/shareqrcolor"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toEndOf="@id/closeLbl"
+            app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+
+        <TextView
+            android:id="@+id/changeLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Change(%): "
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toEndOf="@id/close"
+            app:layout_constraintTop_toBottomOf="@id/companyName" />
+
+
+        <TextView
+            android:id="@+id/stockPriceDifference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="-0.7 (-2.28%)"
+            android:textColor="@color/shareqrcolor"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toEndOf="@id/changeLbl"
+            app:layout_constraintTop_toTopOf="@id/changeLbl"
+            app:layout_constraintBottom_toBottomOf="@id/changeLbl"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/stockDifferencesGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:constraint_referenced_ids="changeLbl,stockPriceDifference,close,closeLbl"/>
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/closeScreen"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="#5E939393"
+            app:roundPercent="0.2"
+            android:src="@drawable/ic_close"
+            android:padding="@dimen/_6sdp"
+            android:tint="#4DACFF"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/companyName"
+            app:layout_constraintBottom_toBottomOf="@+id/date"/>
+        <com.github.mikephil.charting.charts.CombinedChart
+            android:id="@+id/stockGraph"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:elevation="@dimen/_1sdp"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@+id/filterStock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date" />
+
+        <View
+            android:id="@+id/filterStock"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_margin="@dimen/_10ssp"
+            android:background="@drawable/corner_radius"
+            android:backgroundTint="@color/grey_200"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stockGraph" />
+
+        <TextView
+            android:id="@+id/oneDay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="1D"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:background="@drawable/corner_radius"
+
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/filterStock"
+            app:layout_constraintEnd_toStartOf="@id/oneWeek"
+            app:layout_constraintStart_toStartOf="@id/filterStock"
+            app:layout_constraintTop_toTopOf="@id/filterStock" />
+
+        <TextView
+            android:id="@+id/oneWeek"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="1W"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/filterStock"
+            app:layout_constraintEnd_toStartOf="@+id/oneMonth"
+            app:layout_constraintStart_toEndOf="@id/oneDay"
+            app:layout_constraintTop_toTopOf="@id/filterStock" />
+
+        <TextView
+            android:id="@+id/oneMonth"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="1M"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/filterStock"
+            app:layout_constraintEnd_toStartOf="@id/sixMonth"
+            app:layout_constraintStart_toEndOf="@id/oneWeek"
+            app:layout_constraintTop_toTopOf="@id/filterStock" />
+
+        <TextView
+            android:id="@+id/sixMonth"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="6M"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/filterStock"
+            app:layout_constraintEnd_toStartOf="@id/oneYear"
+            app:layout_constraintStart_toEndOf="@+id/oneMonth"
+            app:layout_constraintTop_toTopOf="@id/filterStock" />
+
+        <TextView
+            android:id="@+id/oneYear"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="1Y"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/filterStock"
+            app:layout_constraintEnd_toStartOf="@+id/fiveYear"
+            app:layout_constraintStart_toEndOf="@id/sixMonth"
+            app:layout_constraintTop_toTopOf="@id/filterStock" />
+
+        <TextView
+            android:id="@+id/fiveYear"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_2sdp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="@dimen/_2sdp"
+            android:text="5Y"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/filterStock"
+            app:layout_constraintEnd_toEndOf="@id/filterStock"
+            app:layout_constraintStart_toEndOf="@id/oneYear"
+            app:layout_constraintTop_toTopOf="@id/filterStock" />
+</androidx.constraintlayout.widget.ConstraintLayout>
