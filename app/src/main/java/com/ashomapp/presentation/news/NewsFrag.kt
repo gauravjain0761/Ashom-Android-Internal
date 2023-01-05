@@ -5,10 +5,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.animation.doOnEnd
 import androidx.core.os.bundleOf
@@ -22,6 +25,8 @@ import com.ashomapp.MainActivity
 import com.ashomapp.R
 import com.ashomapp.database.SharedPrefrenceHelper
 import com.ashomapp.databinding.FragmentNewsBinding
+import com.ashomapp.network.response.NotificationData
+import com.ashomapp.network.response.NotifiicationMetaData
 import com.ashomapp.network.response.dashboard.CountriesDTO
 import com.ashomapp.network.response.dashboard.NewsItemDTO
 
@@ -93,6 +98,8 @@ class NewsFrag : Fragment(), onNewItemClick, onCountryClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ApplyGTMEvent("news_click","news_click_count","news_click")
+
         if ( HomeFlow.sectionBottomID == R.id.newsFrag){
             HomeFlow.newsFragCurrentID = R.id.newsFrag
             country_name = country_name_news
@@ -233,7 +240,10 @@ class NewsFrag : Fragment(), onNewItemClick, onCountryClick {
 
         }
         mBinding.etNewsSearch.doOnTextChanged { text, start, before, count ->
+
             if (text?.length != 0) {
+                ApplyGTMEvent("click_news_search","click_news_search_count","click_news_search")
+
                 loadNews(country_name, text.toString())
                 nscrollstatelistner = 0
                 mBinding.homeSearchIcon.setImageResource(R.drawable.ic_close_search)
@@ -269,27 +279,154 @@ class NewsFrag : Fragment(), onNewItemClick, onCountryClick {
     }
 
     override fun onNavigatetoDetail(newsItemDTO: NewsItemDTO, position: Int) {
-        // temp_showToast("navigate to detail")
-        if (mBinding.etNewsSearch.isFocused && mBinding.etNewsSearch.text.isNullOrEmpty()) {
-            mBinding.etNewsSearch.clearFocus()
-            hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
-        } else {
-            nscrollstatelistner = position
-            mBinding.etNewsSearch.setText("")
-            mBinding.etNewsSearch.clearFocus()
-            val newstostring = Gson().toJson(newsItemDTO)
-            val args = bundleOf("Newsdetail" to newstostring)
-             if (HomeFlow.sectionBottomID == R.id.newsFrag){
-                 HomeFlow.newDetailBundle = args
-             }else if (HomeFlow.sectionBottomID == R.id.homeFrag){
-                 HomeFlow.hometonewsdetailbundle = args
-             }
+        ApplyGTMEvent("news_read_click","news_read_count","news_read")
 
-            findNavController().navigate(R.id.newsDetail, args)
+//changed by nj-4-10-22
+        if (!newsItemDTO.metadata.isNullOrEmpty()){
+            HomeFlow.notificationfragenable = true
+            HomeFlow.newsfragenable=true
+
+            Log.d("compony_data_record1",newsItemDTO.metadata.toString())
+
+            //bcz we are having type inside of metadata string hence we are featching type
+
+            val newsitem = Gson().fromJson(
+                newsItemDTO.metadata,
+                NotifiicationMetaData::class.java
+            )
+            if(newsitem.type.equals("Financial Report"))
+            {
+                val compony=newsitem.data[0].toString()
+
+                //we have q1,q2..and year and company data inside newsitem data array (data is json array)
+                val comitem = Gson().fromJson(
+                    newsitem.data[0].toString(),
+                    NotificationData::class.java
+                )
+                Log.d("compony_data_record3",comitem.toString())
+
+                if (comitem.period.equals("Annual")) {
+                    FinancialStatementfrag.mNotificationPeriodselection = 0
+                } else if (comitem.period.equals("Q1")) {
+                    FinancialStatementfrag.mNotificationPeriodselection = 1
+                } else if (comitem.period.equals("Q2")) {
+                    FinancialStatementfrag.mNotificationPeriodselection = 2
+                } else if (comitem.period.equals("Q3")) {
+                    FinancialStatementfrag.mNotificationPeriodselection = 3
+                } else if (comitem.period.equals("Q4")) {
+                    FinancialStatementfrag.mNotificationPeriodselection = 4
+                }
+
+                FinancialStatementfrag.mNotificationPeriodselectionval = comitem.period.trim()
+                FinancialStatementfrag.mNotificationSelectedYear = comitem.year.trim()
+
+
+                val companydetail1 = Gson().toJson(comitem.companypayload)
+                val args = bundleOf("company_finance_detail" to companydetail1)
+
+
+                if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+                    HomeFlow.hometoNotification_to_Financailstatement_Bundle = args
+                    if (comitem.period.equals("Annual")) {
+                        HomeFlow.not_mHomePeriodselection = 0
+                    } else if (comitem.period.equals("Q1")) {
+                        HomeFlow.not_mHomePeriodselection = 1
+                    } else if (comitem.period.equals("Q2")) {
+                        HomeFlow.not_mHomePeriodselection = 2
+                    } else if (comitem.period.equals("Q3")) {
+                        HomeFlow.not_mHomePeriodselection = 3
+                    } else if (comitem.period.equals("Q4")) {
+                        HomeFlow.not_mHomePeriodselection = 4
+                    }
+
+                    HomeFlow.not_mHomePeriodselectionval = comitem.period.trim()
+                    HomeFlow.not_mHomeSelectedYear = comitem.year.trim()
+
+                }
+                else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+                    HomeFlow.forumtoNotification_to_Financailstatement_Bundle = args
+                    if (comitem.period.equals("Annual")) {
+                        HomeFlow.not_mForumPeriodselection = 0
+                    } else if (comitem.period.equals("Q1")) {
+                        HomeFlow.not_mForumPeriodselection = 1
+                    } else if (comitem.period.equals("Q2")) {
+                        HomeFlow.not_mForumPeriodselection = 2
+                    } else if (comitem.period.equals("Q3")) {
+                        HomeFlow.not_mForumPeriodselection = 3
+                    } else if (comitem.period.equals("Q4")) {
+                        HomeFlow.not_mForumPeriodselection = 4
+                    }
+
+                    HomeFlow.not_mForumPeriodselectionval = comitem.period.trim()
+                    HomeFlow.not_mForumSelectedYear = comitem.year.trim()
+                } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+                    HomeFlow.newstoNotification_to_Financailstatement_Bundle = args
+                    if (comitem.period.equals("Annual")) {
+                        HomeFlow.not_mNewsPeriodselection = 0
+                    } else if (comitem.period.equals("Q1")) {
+                        HomeFlow.not_mNewsPeriodselection = 1
+                    } else if (comitem.period.equals("Q2")) {
+                        HomeFlow.not_mNewsPeriodselection = 2
+                    } else if (comitem.period.equals("Q3")) {
+                        HomeFlow.not_mNewsPeriodselection = 3
+                    } else if (comitem.period.equals("Q4")) {
+                        HomeFlow.not_mNewsPeriodselection = 4
+                    }
+
+                    HomeFlow.not_mNewsPeriodselectionval = comitem.period.trim()
+                    HomeFlow.not_mNewsSelectedYear = comitem.year.trim()
+                } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+                    if (comitem.period.equals("Annual")) {
+                        HomeFlow.not_mSearchPeriodselection = 0
+                    } else if (comitem.period.equals("Q1")) {
+                        HomeFlow.not_mSearchPeriodselection = 1
+                    } else if (comitem.period.equals("Q2")) {
+                        HomeFlow.not_mSearchPeriodselection = 2
+                    } else if (comitem.period.equals("Q3")) {
+                        HomeFlow.not_mSearchPeriodselection = 3
+                    } else if (comitem.period.equals("Q4")) {
+                        HomeFlow.not_mSearchPeriodselection = 4
+                    }
+
+                    HomeFlow.not_mSearchPeriodselectionval = comitem.period.trim()
+                    HomeFlow.not_mSearchSelectedYear = comitem.year.trim()
+                    HomeFlow.searchtoNotification_to_Financailstatement_Bundle = args
+                }
+                FinancialStatementfrag.fromnewssection=1
+                findNavController().navigate(
+                    R.id.action_newsFrag_to_financialStatementfrag,
+                    args
+                )
+
+
+            }
+//
+        }else {
+
+            // temp_showToast("navigate to detail")
+            if (mBinding.etNewsSearch.isFocused && mBinding.etNewsSearch.text.isNullOrEmpty()) {
+                mBinding.etNewsSearch.clearFocus()
+                hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
+            } else {
+                nscrollstatelistner = position
+                mBinding.etNewsSearch.setText("")
+                mBinding.etNewsSearch.clearFocus()
+                val newstostring = Gson().toJson(newsItemDTO)
+                val args = bundleOf("Newsdetail" to newstostring)
+                if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+                    HomeFlow.newDetailBundle = args
+                } else if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+                    HomeFlow.hometonewsdetailbundle = args
+                }
+
+                findNavController().navigate(R.id.newsDetail, args)
+            }
         }
     }
 
     override fun onShare(newsItemDTO: NewsItemDTO, position: Int) {
+        ApplyGTMEvent("news_share_click","news_share_click_count","news_share")
+
         if (mBinding.etNewsSearch.isFocused && mBinding.etNewsSearch.text.isNullOrEmpty()) {
             mBinding.etNewsSearch.clearFocus()
             hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
@@ -312,6 +449,7 @@ class NewsFrag : Fragment(), onNewItemClick, onCountryClick {
     }
 
     override fun addToForum(newsItemDTO: NewsItemDTO, position: Int) {
+
         if (mBinding.etNewsSearch.isFocused && mBinding.etNewsSearch.text.isNullOrEmpty()) {
             mBinding.etNewsSearch.clearFocus()
             hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
@@ -322,12 +460,13 @@ class NewsFrag : Fragment(), onNewItemClick, onCountryClick {
             nscrollstatelistner = position
             val companydetail = Gson().toJson(newsItemDTO)
             val args = bundleOf("news_item_to_forum" to companydetail)
+            ApplyGTMEvent("click_news_forum","click_news_forum_count","news_forum")
 
             findNavController().navigate(R.id.composeFrag, args)
         }
     }
 
-    override fun onCountryClick(countriesDTO: CountriesDTO, view: View, position: Int) {
+    override fun onCountryClick(countriesDTO: CountriesDTO) {
         if (mBinding.etNewsSearch.isFocused && mBinding.etNewsSearch.text.isNullOrEmpty()) {
             mBinding.etNewsSearch.clearFocus()
             hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)

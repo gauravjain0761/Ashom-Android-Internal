@@ -4,26 +4,19 @@ import android.accounts.Account
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.os.Handler
 import android.text.TextUtils
 import android.text.format.DateUtils
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import com.ashomapp.AshomAppApplication
 import com.ashomapp.R
-import com.ashomapp.network.response.AppDetailDTO
-import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -32,10 +25,31 @@ import com.google.api.client.extensions.android.http.AndroidHttp
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.people.v1.PeopleService
-import com.snov.timeagolibrary.PrettyTimeAgo
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.pm.PackageManager
+
+import android.content.pm.PackageInfo
+import android.graphics.Color
+import android.graphics.Rect
+import android.os.Bundle
+import android.os.Handler
+import android.transition.Slide
+import android.transition.TransitionManager
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import androidx.core.animation.doOnEnd
+import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
+import com.ashomapp.databinding.SuscessDialogBinding
+import com.ashomapp.network.response.AppDetailDTO
+import com.bumptech.glide.Glide
+import com.google.firebase.analytics.FirebaseAnalytics
+import java.time.Duration
 
 
 fun setanimation(view : View){
@@ -128,8 +142,8 @@ fun isValidEmail(email: String): Boolean {
 
 fun getPrettyTime(
     oldTime: String,
-    timeformat: String,
-    flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_ABBREV_MONTH,
+    timeformat : String,
+    flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_ABBREV_MONTH
 ): String {
     //ex. 2020-12-07 13:00:07 UTC
     if (oldTime.isEmpty()) {
@@ -137,22 +151,17 @@ fun getPrettyTime(
     }
     val date = SimpleDateFormat(timeformat, Locale.getDefault()).parse(oldTime)
     val iSTAddition = 19800000 //+ 5:30 hours in millis
-
-
-
     return DateUtils.getRelativeTimeSpanString(
         date.time ,
         System.currentTimeMillis(),
         0,
         flags
     ).toString()
-
-
 }
 fun getPrettyTimeForForum(
     oldTime: String,
-    timeformat: String,
-    flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_ABBREV_MONTH or DateUtils.FORMAT_ABBREV_WEEKDAY,
+    timeformat : String,
+    flags: Int = DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR or DateUtils.FORMAT_ABBREV_MONTH or DateUtils.FORMAT_ABBREV_WEEKDAY
 ): String {
     //ex. 2020-12-07 13:00:07 UTC
     if (oldTime.isEmpty()) {
@@ -160,14 +169,11 @@ fun getPrettyTimeForForum(
     }
     val date = SimpleDateFormat(timeformat, Locale.getDefault()).parse(oldTime)
 
-
-
-
     return DateUtils.getRelativeTimeSpanString(
         date.time ,
         System.currentTimeMillis(),
         0,
-        DateUtils.FORMAT_SHOW_YEAR
+        flags
     ).toString()
 }
 
@@ -175,7 +181,7 @@ fun getPrettyTimeForForum(
 @Throws(ParseException::class)
 fun formatDateFromDateString(
     inputDateFormat: String?, outputDateFormat: String?,
-    inputDate: String?,
+    inputDate: String?
 ): String? {
     Log.d("expire_date_u", "$inputDate")
     val mParsedDate: Date
@@ -283,13 +289,31 @@ fun capitalizeString(str: String): String {
     return retStr
 }
 
+//added by nj-28-9
+fun Fragment.ApplyGTMEvent(key:String, value:String, eventName:String){
+    var mFirebaseAnalytics= FirebaseAnalytics.getInstance(requireContext())
+    val params = Bundle()
+    params.putString(key, value)
+    mFirebaseAnalytics.logEvent(eventName, params)
+    mFirebaseAnalytics.setDefaultEventParameters(params)
+
+}
+
+fun View.isOverlap(other: View, deltaX: Int = 0, deltaY: Int = 0): Boolean {
+    val thisXY  = IntArray(2).apply { getLocationOnScreen(this) }
+    val otherXY = IntArray(2).apply {
+        other.getLocationOnScreen(this)
+        this[0] += deltaX
+        this[1] += deltaY
+    }
+    return thisXY.let { Rect(it[0], it[1], it[0] + width, it[1] + height) }
+        .intersect(otherXY.let {
+            Rect(it[0], it[1], it[0] + other.width, it[1] + other.height)
+        })
+}
 
 
 
 
-data class ChartData(
-    val xValue: Float,
-    val yValue: Float,
-)
 
 

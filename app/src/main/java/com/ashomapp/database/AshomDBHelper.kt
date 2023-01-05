@@ -121,7 +121,7 @@ class AshomDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         return selecteddata
     }
 
-    fun getSearchCompanyData(query: String, query2: String): List<CompanyDTO> {
+    fun getSearchCompanyData(query: String): List<CompanyDTO> {
         val db = this.readableDatabase
         val companyArrayList: ArrayList<CompanyDTO> = ArrayList()
         companyArrayList.clear()
@@ -129,8 +129,7 @@ class AshomDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
             val cursorCourses = db.rawQuery(
                 "SELECT * FROM " + TABLE_NAME + " WHERE " + COMPANY_NAME + " like '%"
-                        + query + "%' or " + COMPANY_NAME + " like '%"
-                        + query2 + "%' or " + SYMBOLTICKER + " like '%"
+                        + query + "%' or " + SYMBOLTICKER + " like '%"
                         + query + "%' or " + COUNTRY + " like '%"
                         + query + "%'", null
             )
@@ -143,37 +142,7 @@ class AshomDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                             cursorCourses.getString(2),
                             cursorCourses.getString(3),
                             cursorCourses.getString(4),
-                            cursorCourses.getString(5),
-                            cursorCourses.getString(6),
-                        )
-                    )
-                } while (cursorCourses.moveToNext())
-            }
-            cursorCourses.close()
-            return companyArrayList
-        } catch (e: Exception) {
-        }
-        return companyArrayList
-    }
-
-    fun getSearchCompanyByCountryData(query: String): List<CompanyDTO> {
-        val db = this.readableDatabase
-        val companyArrayList: ArrayList<CompanyDTO> = ArrayList()
-        companyArrayList.clear()
-        try {
-
-            val cursorCourses = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COMPANY_NAME=$query", null)
-
-            if (cursorCourses.moveToFirst()) {
-                do {
-                    companyArrayList.add(
-                        CompanyDTO(
-                            cursorCourses.getString(1),
-                            cursorCourses.getString(2),
-                            cursorCourses.getString(3),
-                            cursorCourses.getString(4),
-                            cursorCourses.getString(5),
-                            cursorCourses.getString(6),
+                            cursorCourses.getString(5)
                         )
                     )
                 } while (cursorCourses.moveToNext())
@@ -213,67 +182,6 @@ class AshomDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
         return companyDTO
     }
-    fun getSingleCompanyByName(query: String): CompanyDTO? {
-        val db = this.readableDatabase
-        var companyDTO : CompanyDTO? =  null
-        try {
-
-            val cursorCourses = db.rawQuery(
-                    "SELECT * FROM $TABLE_NAME WHERE ${COMPANY_NAME.lowercase()} LIKE \"%$query%\" or ${SYMBOLTICKER.lowercase()} = \"%$query%\"", null
-            )
-
-
-
-            if (cursorCourses.moveToFirst()) {
-                do {
-                 companyDTO = CompanyDTO(
-                     cursorCourses.getString(1),
-                     cursorCourses.getString(2),
-                     cursorCourses.getString(3),
-                     cursorCourses.getString(4),
-                     cursorCourses.getString(5),
-                     cursorCourses!!.getString(6),
-                     cursorCourses!!.getString(7)
-                    )
-                } while (cursorCourses.moveToNext())
-            }
-            cursorCourses.close()
-            return companyDTO
-        } catch (e: Exception) {
-        }
-        return companyDTO
-    }
-
-    fun getSingleCompanyBySymbol(query: String): CompanyDTO? {
-        val db = this.readableDatabase
-        var companyDTO : CompanyDTO? =  null
-        try {
-
-            val cursorCourses = db.rawQuery(
-                    "SELECT * FROM $TABLE_NAME WHERE  ${SYMBOLTICKER.lowercase()} = $query", null
-            )
-
-
-
-            if (cursorCourses.moveToFirst()) {
-                do {
-                 companyDTO = CompanyDTO(
-                     cursorCourses.getString(1),
-                     cursorCourses.getString(2),
-                     cursorCourses.getString(3),
-                     cursorCourses.getString(4),
-                     cursorCourses.getString(5),
-                     cursorCourses!!.getString(6),
-                     cursorCourses!!.getString(7)
-                    )
-                } while (cursorCourses.moveToNext())
-            }
-            cursorCourses.close()
-            return companyDTO
-        } catch (e: Exception) {
-        }
-        return companyDTO
-    }
 
     fun getCompanyDataFromCOuntry(query: String): List<CompanyDTO> {
         val db = this.readableDatabase
@@ -281,37 +189,9 @@ class AshomDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         companyArrayList.clear()
         try {
             val cursorCourses = db.rawQuery(
-                "SELECT * FROM $TABLE_NAME WHERE $COUNTRY like '%$query%' or $COMPANY_EXCHANGE like '%$query%'", null
-            )
-            if (cursorCourses.moveToFirst()) {
-                do {
-                    companyArrayList.add(
-                        CompanyDTO(
-                            cursorCourses.getString(1),
-                            cursorCourses.getString(2),
-                            cursorCourses.getString(3),
-                            cursorCourses.getString(4),
-                            cursorCourses.getString(5),
-                            cursorCourses!!.getString(6),
-                            cursorCourses.getString(7)
-                        )
-                    )
-                    Log.d("Companydbitemsddii", "${cursorCourses.getString(7)}")
-                } while (cursorCourses.moveToNext())
-            }
-            cursorCourses.close()
-            return companyArrayList
-        } catch (e: Exception) {
-        }
-        return companyArrayList
-    }
-    fun getCompanyDataFromCountryList(query: String): List<CompanyDTO> {
-        val db = this.readableDatabase
-        val companyArrayList: ArrayList<CompanyDTO> = ArrayList()
-        companyArrayList.clear()
-        try {
-            val cursorCourses = db.rawQuery(
-                "SELECT * FROM $TABLE_NAME WHERE ${COUNTRY.lowercase()} = ${query.lowercase()}", null
+                "SELECT * FROM " + TABLE_NAME + " WHERE " + COUNTRY + " like '%"
+                        + query + "%' or " + COMPANY_EXCHANGE + " like '%"
+                        + query + "%'", null
             )
             if (cursorCourses.moveToFirst()) {
                 do {

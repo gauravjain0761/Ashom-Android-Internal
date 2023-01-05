@@ -81,6 +81,9 @@ import kotlin.collections.ArrayList
 import android.content.ActivityNotFoundException
 
 
+
+
+
 class SettingFrag : Fragment() {
     private lateinit var mBinding: FragmentSettingBinding
     private lateinit var drawble: BitmapDrawable
@@ -94,7 +97,7 @@ class SettingFrag : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         mBinding = FragmentSettingBinding.inflate(layoutInflater, container, false)
         return mBinding.root
@@ -102,32 +105,25 @@ class SettingFrag : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         HomeFlow.profilefragenable = true
-        when (HomeFlow.sectionBottomID) {
-            R.id.homeFrag -> {
-                HomeFlow.home_to_profile = true
-                HomeFlow.home_settingcurrentID = R.id.settingFrag
-            }
-            R.id.countryList -> {
-                HomeFlow.financial_to_profile = true
-                HomeFlow.financial_settingCurrentID = R.id.settingFrag
-            }
-            R.id.forumFrag -> {
-                HomeFlow.forum_to_profile = true
-                HomeFlow.forum_settingcurrentID = R.id.settingFrag
-            }
-            R.id.newsFrag -> {
-                HomeFlow.news_to_profile = true
-                HomeFlow.news_settingcurrentID = R.id.settingFrag
-            }
-            R.id.searchFrag -> {
-                HomeFlow.search_to_profile = true
-                HomeFlow.search_settingcurrentID = R.id.settingFrag
-            }
-
+        if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+            HomeFlow.home_to_profile = true
+            HomeFlow.home_settingcurrentID = R.id.settingFrag
+        } else if (HomeFlow.sectionBottomID == R.id.countryList) {
+            HomeFlow.financial_to_profile = true
+            HomeFlow.financial_settingCurrentID = R.id.settingFrag
+        } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+            HomeFlow.forum_to_profile = true
+            HomeFlow.forum_settingcurrentID = R.id.settingFrag
+        } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+            HomeFlow.news_to_profile = true
+            HomeFlow.news_settingcurrentID = R.id.settingFrag
+        } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+            HomeFlow.search_to_profile = true
+            HomeFlow.search_settingcurrentID = R.id.settingFrag
         }
 
 
-        if (HomeFlow.scanMe == true) {
+        if (HomeFlow.scanMe == true){
             ScanmeBottommsheet()
         }
 
@@ -145,36 +141,21 @@ class SettingFrag : Fragment() {
                     duration = 100
                     start()
                     doOnEnd {
-                        when (HomeFlow.sectionBottomID) {
-                            R.id.homeFrag -> {
-                                HomeFlow.home_to_profile = false
-                                (requireActivity() as MainActivity).gotoHome()
-                            }
-
-                            R.id.countryList -> {
-                                HomeFlow.financial_to_profile = false
-                                (requireActivity() as MainActivity).clicktoCountryList()
-                            }
-
-                            R.id.forumFrag -> {
-                                HomeFlow.forum_to_profile = false
-                                (requireActivity() as MainActivity).clicktoForumTab()
-                            }
-
-                            R.id.searchFrag -> {
-                                HomeFlow.search_to_profile = false
-                                (requireActivity() as MainActivity).clicktoSearchFrag()
-                            }
-
-                            R.id.newsFrag -> {
-                                HomeFlow.news_to_profile = false
-                                (requireActivity() as MainActivity).gotoNewsTab()
-                            }
-
-                            R.id.stockPriceFragment -> {
-                                findNavController().popBackStack()
-                            }
-
+                        if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+                            HomeFlow.home_to_profile = false
+                            (requireActivity() as MainActivity).gotoHome()
+                        } else if (HomeFlow.sectionBottomID == R.id.countryList) {
+                            HomeFlow.financial_to_profile = false
+                            (requireActivity() as MainActivity).clicktoCountryList()
+                        } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+                            HomeFlow.forum_to_profile = false
+                            (requireActivity() as MainActivity).clicktoForumTab()
+                        } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+                            HomeFlow.search_to_profile = false
+                            (requireActivity() as MainActivity).clicktoSearchFrag()
+                        } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+                            HomeFlow.news_to_profile = false
+                            (requireActivity() as MainActivity).gotoNewsTab()
                         }
                     }
                 }
@@ -228,26 +209,22 @@ class SettingFrag : Fragment() {
         mBinding.mtoolbar.icon.setOnClickListener {
             setanimation(it)
             if (HomeFlow.sectionBottomID == R.id.searchFrag && HomeFlow.searchcurrentFragID != R.id.searchFrag
-                || HomeFlow.search_to_profile || HomeFlow.search_to_notification
-            ) {
+                || HomeFlow.search_to_profile || HomeFlow.search_to_notification) {
                 HomeFlow.search_to_profile = false
                 HomeFlow.search_to_notification = false
                 (requireActivity() as MainActivity).clicktoSearchFrag()
             } else if (HomeFlow.sectionBottomID == R.id.countryList && HomeFlow.financialcurrentFragID != R.id.countryList
-                || HomeFlow.financial_to_profile || HomeFlow.countrylist_to_notification
-            ) {
+                || HomeFlow.financial_to_profile || HomeFlow.countrylist_to_notification) {
                 HomeFlow.financial_to_profile = false
                 HomeFlow.countrylist_to_notification = false
                 (requireActivity() as MainActivity).clicktoCountryList()
             } else if (HomeFlow.sectionBottomID == R.id.forumFrag && HomeFlow.forumCurrentID != R.id.forumFrag
-                || HomeFlow.forum_to_profile || HomeFlow.fourm_to_notification
-            ) {
+                || HomeFlow.forum_to_profile || HomeFlow.fourm_to_notification) {
                 HomeFlow.forum_to_profile = false
                 HomeFlow.fourm_to_notification = false
                 (requireActivity() as MainActivity).clicktoForumTab()
             } else if (HomeFlow.sectionBottomID == R.id.newsFrag && HomeFlow.newsFragCurrentID != R.id.newsFrag
-                || HomeFlow.news_to_profile || HomeFlow.news_to_notification
-            ) {
+                || HomeFlow.news_to_profile || HomeFlow.news_to_notification) {
                 HomeFlow.news_to_profile = false
                 HomeFlow.news_to_notification = false
                 (requireActivity() as MainActivity).gotoNewsTab()
@@ -273,7 +250,7 @@ class SettingFrag : Fragment() {
                     }
 
                 }
-            } else {
+            }else{
                 mBinding.selectedCompaniesSubtitle.text = ""
             }
         }
@@ -291,9 +268,13 @@ class SettingFrag : Fragment() {
                     mBinding.premium.setImageResource(R.drawable.gold_ashom)
                 } else if (it.equals("Monthly")) {
                     mBinding.subscriptionUpgrade.visibility = View.VISIBLE
-                    mBinding.subscriptionDeadline.visibility = View.GONE
+                    mBinding.subscriptionDeadline.visibility = View.VISIBLE
                     mBinding.premium.setImageResource(R.drawable.bronz_ashom)
-                } else {
+                }else if (it.equals("Quarterly")) {
+                    mBinding.subscriptionUpgrade.visibility = View.VISIBLE
+                    mBinding.subscriptionDeadline.visibility = View.VISIBLE
+                    mBinding.premium.setImageResource(R.drawable.bronz_ashom)
+                }else {
                     mBinding.subscriptionUpgrade.visibility = View.VISIBLE
                     mBinding.subscriptionDeadline.visibility = View.GONE
                     mBinding.premium.setImageResource(R.drawable.silver_ashom)
@@ -366,9 +347,9 @@ class SettingFrag : Fragment() {
                 val simpleDateFormat = SimpleDateFormat("dd MMM yyyy")
                 val dateTime = simpleDateFormat.format(date)
                 mBinding.subscriptionDeadline.text = "EXPIRES ON: ${
-                    dateTime
+                   dateTime
                 }"
-            } else {
+            }else{
                 mBinding.subscriptionDeadline.visibility = View.GONE
             }
 
@@ -382,32 +363,35 @@ class SettingFrag : Fragment() {
             findNavController().navigate(R.id.action_settingFrag_to_profileFragment)
         }
         mBinding.tAndCContainer.setOnClickListener {
-            if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+            if (HomeFlow.sectionBottomID == R.id.homeFrag){
                 HomeFlow.home_settingcurrentID = TERMS_CONDITION
-            } else if (HomeFlow.sectionBottomID == R.id.countryList) {
-                HomeFlow.financial_settingCurrentID = TERMS_CONDITION
-            } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.countryList){
+                HomeFlow.financial_settingCurrentID =TERMS_CONDITION
+            }else if (HomeFlow.sectionBottomID == R.id.forumFrag){
                 HomeFlow.forum_settingcurrentID = TERMS_CONDITION
-            } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.newsFrag){
                 HomeFlow.news_settingcurrentID = TERMS_CONDITION
-            } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.searchFrag){
                 HomeFlow.search_settingcurrentID = TERMS_CONDITION
             }
+            ApplyGTMEvent("view_tnc","view_tnc_count","view_tnc")
+
             val args = bundleOf("ppurl" to TERMS_CONDITION_URL)
             findNavController().navigate(R.id.action_settingFrag_to_privacy_policy, args)
         }
         mBinding.privacypolicyContainer.setOnClickListener {
-            if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+            if (HomeFlow.sectionBottomID == R.id.homeFrag){
                 HomeFlow.home_settingcurrentID = PRIVACY_POLICY
-            } else if (HomeFlow.sectionBottomID == R.id.countryList) {
-                HomeFlow.financial_settingCurrentID = PRIVACY_POLICY
-            } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.countryList){
+                HomeFlow.financial_settingCurrentID =PRIVACY_POLICY
+            }else if (HomeFlow.sectionBottomID == R.id.forumFrag){
                 HomeFlow.forum_settingcurrentID = PRIVACY_POLICY
-            } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.newsFrag){
                 HomeFlow.news_settingcurrentID = PRIVACY_POLICY
-            } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.searchFrag){
                 HomeFlow.search_settingcurrentID = PRIVACY_POLICY
             }
+            ApplyGTMEvent("view_privacy_policy","view_privacy_policy_count","view_privacy_policy")
 
             val args = bundleOf("ppurl" to PRIVACY_POLICY_URL)
             findNavController().navigate(R.id.action_settingFrag_to_privacy_policy, args)
@@ -415,22 +399,26 @@ class SettingFrag : Fragment() {
         }
         mBinding.aboutusContainer.setOnClickListener {
             // findNavController().navigate(R.id.)
-            if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+            if (HomeFlow.sectionBottomID == R.id.homeFrag){
                 HomeFlow.home_settingcurrentID = ABOUT_US
-            } else if (HomeFlow.sectionBottomID == R.id.countryList) {
-                HomeFlow.financial_settingCurrentID = ABOUT_US
-            } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.countryList){
+                HomeFlow.financial_settingCurrentID =ABOUT_US
+            }else if (HomeFlow.sectionBottomID == R.id.forumFrag){
                 HomeFlow.forum_settingcurrentID = ABOUT_US
-            } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.newsFrag){
                 HomeFlow.news_settingcurrentID = ABOUT_US
-            } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+            }else if (HomeFlow.sectionBottomID == R.id.searchFrag){
                 HomeFlow.search_settingcurrentID = ABOUT_US
             }
+            ApplyGTMEvent("about_us_app","about_us_count","about_us_app_view")
+
             val args = bundleOf("ppurl" to ABOUT_US_URL)
             findNavController().navigate(R.id.action_settingFrag_to_privacy_policy, args)
         }
         mBinding.changePasswordContainer.setOnClickListener {
             // findNavController().navigate(R.id.)
+            ApplyGTMEvent("change_password","change_password_count","change_password")
+
             findNavController().navigate(R.id.action_settingFrag_to_changePassword)
         }
         mBinding.rateUsContainer.setOnClickListener {
@@ -456,11 +444,14 @@ class SettingFrag : Fragment() {
 
         }
         mBinding.subscriptionUpgrade.setOnClickListener {
+            ApplyGTMEvent("view_subscription","view_subscription_count","view_subscription")
+
             val args = bundleOf("where" to "profile")
             findNavController().navigate(R.id.subscriptionDialog, args)
 
         }
         mBinding.selectedCompaniesContainer.setOnClickListener {
+            ApplyGTMEvent("view_selected_companies","view_selected_companies_count","view_selected_companies")
 
             findNavController().navigate(R.id.action_settingFrag_to_selectedCompanies)
         }
@@ -699,16 +690,16 @@ class SettingFrag : Fragment() {
                         mBinding.subscriptionDeadline.visibility = View.VISIBLE
                         val df = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
                         df.setTimeZone(TimeZone.getTimeZone("UTC"))
-                        val date: Date = df.parse(result.response.userdata.subscription_expiry_date)
+                        val date: Date = df.parse( result.response.userdata.subscription_expiry_date)
                         df.setTimeZone(TimeZone.getDefault())
                         val simpleDateFormat = SimpleDateFormat("dd MMM yyyy")
                         val dateTime = simpleDateFormat.format(date)
 
                         mBinding.subscriptionDeadline.text = "EXPIRES ON: ${
-                            dateTime
+                           dateTime
                         }"
 
-                    } else {
+                    }else{
                         mBinding.subscriptionDeadline.visibility = View.GONE
                     }
                     subscriptionType.value = result.response.userdata.subscription_type

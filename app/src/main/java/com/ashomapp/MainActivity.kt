@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         var layoutheight = MutableLiveData<Int>(0)
         val countrylist = ArrayList<CountriesDTO>()
         val companiesList = ArrayList<CompanyDTO>()
+
         val intentforNews = MutableLiveData<String>()
         val intentforForum = MutableLiveData<String>()
         val intentforCompany = MutableLiveData<String>()
@@ -109,8 +110,6 @@ class MainActivity : AppCompatActivity() {
 
         reviewsetUp()
         getCountry()
-        getCompanies()
-
         getLastCompanyID()
 
         //This condition only for one time company load when application intall
@@ -148,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 if (it) {
                     binding.bottomAppBar.visibility = View.GONE
                 } else {
-                    if (destination_Id == R.id.splashScreen||destination_Id == R.id.fullStockGraphFragment) {
+                    if (destination_Id == R.id.splashScreen) {
                         binding.bottomAppBar.visibility = View.GONE
 
                     } else {
@@ -177,10 +176,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.selectedCompanies,
                 R.id.notificationFrag,
                 R.id.forumComments,
-                R.id.forumReply,
-                R.id.stockPriceFragment,
-                R.id.stockDetailsFragment,
-
+                R.id.forumReply
             )
         }
         bottomAppbar()
@@ -209,7 +205,8 @@ class MainActivity : AppCompatActivity() {
                         Snewsitem.date,
                         Snewsitem.image_url,
                         Snewsitem.source,
-                        Snewsitem.link
+                        Snewsitem.link,
+                        Snewsitem.metadata
                     )
 
                     val newstostring = Gson().toJson(newitemdto)

@@ -108,35 +108,8 @@
     <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-
-
-    <style name="tableheadertrans_tview">
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:background">@drawable/ic_stock_arrow_down</item>
-    </style>
-
-    <style name="tableheaderback_tview">
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:paddingTop">15dp</item>
-        <item name="android:background">@drawable/ic_stock_arrow_down</item>
-    </style>
-
-    <style name="tablecontenttrans_tview">
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:background">@drawable/ic_stock_arrow_down</item>
-    </style>
-
-    <style name="tablecontentback_tview">
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:background">@drawable/ic_stock_arrow_down</item>
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

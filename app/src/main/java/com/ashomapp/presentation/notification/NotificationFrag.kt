@@ -23,6 +23,7 @@ import com.ashomapp.network.response.dashboard.NewsItemDTO
 import com.ashomapp.network.retrofit.ResultWrapper
 import com.ashomapp.presentation.home.FinancialStatementfrag
 import com.ashomapp.presentation.home.HomeFlow
+import com.ashomapp.utils.ApplyGTMEvent
 import com.ashomapp.utils.hideKeyboard
 import com.ashomapp.utils.notificationcounter
 import com.ashomapp.utils.setanimation
@@ -50,6 +51,8 @@ class NotificationFrag : Fragment(), onNotificationClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ApplyGTMEvent("notification_click","notification_click_count","notification_click")
+
 
         HomeFlow.notificationfragenable = true
 
@@ -85,30 +88,21 @@ class NotificationFrag : Fragment(), onNotificationClick {
         }
 
         mBinding.mtoolbar.mainBack.setOnClickListener {
-            when (HomeFlow.sectionBottomID) {
-                R.id.homeFrag -> {
-                    HomeFlow.hometonotification = false
-                    (requireActivity() as MainActivity).gotoHome()
-                }
-                R.id.countryList -> {
-                    HomeFlow.countrylist_to_notification = false
-                    (requireActivity() as MainActivity).clicktoCountryList()
-                }
-                R.id.forumFrag -> {
-                    HomeFlow.fourm_to_notification = false
-                    (requireActivity() as MainActivity).clicktoForumTab()
-                }
-                R.id.searchFrag -> {
-                    HomeFlow.search_to_notification = false
-                    (requireActivity() as MainActivity).clicktoSearchFrag()
-                }
-                R.id.newsFrag -> {
-                    HomeFlow.news_to_notification = false
-                    (requireActivity() as MainActivity).gotoNewsTab()
-                }
-                R.id.stockPriceFragment -> {
-                    findNavController().popBackStack()
-                }
+            if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+                HomeFlow.hometonotification = false
+                (requireActivity() as MainActivity).gotoHome()
+            } else if (HomeFlow.sectionBottomID == R.id.countryList) {
+                HomeFlow.countrylist_to_notification = false
+                (requireActivity() as MainActivity).clicktoCountryList()
+            } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+                HomeFlow.fourm_to_notification = false
+                (requireActivity() as MainActivity).clicktoForumTab()
+            } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+                HomeFlow.search_to_notification = false
+                (requireActivity() as MainActivity).clicktoSearchFrag()
+            } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+                HomeFlow.news_to_notification = false
+                (requireActivity() as MainActivity).gotoNewsTab()
             }
         }
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -201,11 +195,14 @@ class NotificationFrag : Fragment(), onNotificationClick {
 
     override fun onNotificationClick(notificationDTO: NotificationDTO) {
         HomeFlow.notificationfragenable = true
+
+
         if (notificationDTO.metadata.type.equals("Financial Report")) {
             val newsitem = Gson().fromJson(
                 notificationDTO.metadata.data[0].toString(),
                 NotificationData::class.java
             )
+
             Log.d("notificationcom", newsitem.toString())
 
             if (newsitem.period.equals("Annual")) {
@@ -323,7 +320,8 @@ class NotificationFrag : Fragment(), onNotificationClick {
                 newsitem.date,
                 newsitem.image_url,
                 newsitem.source,
-                newsitem.link
+                newsitem.link,
+                newsitem.metadata
             )
             //  (requireActivity() as MainActivity).animateonltNews()
 

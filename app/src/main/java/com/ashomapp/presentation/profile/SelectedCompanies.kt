@@ -40,6 +40,8 @@ class SelectedCompanies : Fragment(), onCompanyClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ApplyGTMEvent("view_selected_companies","view_selected_companies_count","GTM_view_selected_companies")
+
         mBinding.mtoolbar.mainBack.setOnClickListener {
             ObjectAnimator.ofFloat(mBinding.mtoolbar.mainBackView, "alpha", 0f, 1f, 0f)
                 .apply {

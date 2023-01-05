@@ -2,45 +2,5 @@
     <string name="app_name">Ashom.app</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="last">LAST</string>
-    <string name="search_lbl">Search</string>
-    <string name="ticker_company_name_lbl">TICKER-COMPANY NAME</string>
-    <string name="stock_prices_lbl">Stock Prices</string>
-    <string name="exchange_lbl">EXCHANGE</string>
-    <string name="industry_lbl">INDUSTRY</string>
-    <string name="open_lbl">OPEN</string>
-    <string name="high_lbl">HIGH</string>
-    <string name="low_lbl">LOW</string>
-    <string name="change_lbl">CHANGE</string>
-    <string name="close_lbl">CLOSE</string>
-    <string name="change_per_lbl">CHANGE (%)</string>
-    <string name="volume_lbl">VOLUME</string>
-    <string name="date_lbl">DATE</string>
-
-    <!-- Date Util -->
-    <string name="dat">less than</string>
-    <string name="date_util_term_a">a</string>
-    <string name="date_util_term_an">an</string>
-
-    <string name="date_util_unit_second">second</string>
-    <string name="date_util_unit_seconds">seconds</string>
-    <string name="date_util_unit_minute">minute</string>
-    <string name="date_util_unit_minutes">minutes</string>
-    <string name="date_util_unit_hour">hour</string>
-    <string name="date_util_unit_hours">hours</string>
-    <string name="date_util_unit_day">day</string>
-    <string name="date_util_unit_days">days</string>
-    <string name="date_util_unit_month">month</string>
-    <string name="date_util_unit_months">months</string>
-    <string name="date_util_unit_year">year</string>
-    <string name="date_util_unit_years">years</string>
-
-    <string name="date_util_prefix_lt">less than a</string>
-    <string name="date_util_prefix_about">about</string>
-    <string name="date_util_prefix_over">over</string>
-    <string name="date_util_prefix_almost">almost</string>
-
-    <string name="date_util_suffix">ago</string>
-
 
 </resources>

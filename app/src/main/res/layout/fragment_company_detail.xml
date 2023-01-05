@@ -1,293 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/btn_color"
-    tools:context=".presentation.home.CompanyDetail">
-   <include
-       android:id="@+id/mtoolbar"
-       layout="@layout/toolbar"
-       />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/mtoolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/page_bg"
-        android:layout_height="0dp">
+        android:layout_height="match_parent"
+        android:background="@color/btn_color"
+        tools:context=".presentation.home.CompanyDetail">
+
+        <include
+            android:id="@+id/mtoolbar"
+            layout="@layout/toolbar" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="0dp"
             android:background="@drawable/page_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mtoolbar">
 
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/company_detail_com_image"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_margin="10dp"
-                android:scaleType="fitCenter"
-                android:elevation="5dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/company_financial"/>
-            <TextView
-                android:id="@+id/company_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/country_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/country_name"
-                app:layout_constraintStart_toEndOf="@id/country_name"
-                tools:text="Abdullah A.M. AI-Khodari"
-                android:textAlignment="viewEnd"
-                android:textSize="12sp"
-                android:maxLines="2"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="75dp"
-                android:textColor="@color/black"
-                />
-            <TextView
-                android:id="@+id/delisteddate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/latestreliselistdate"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/latestreliselistdate"
-                tools:text="Delisted On 04-NOV-21"
-                android:textAlignment="viewEnd"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:layout_marginStart="5dp"
-                android:textColor="@color/red"
-                android:layout_marginEnd="10dp"
-                />
-            <TextView
-                android:id="@+id/latestreliselistdate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/company_detail_com_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/delisteddate"
-                tools:text="Last Released Report: Annual - 2018"
-                android:textAlignment="viewStart"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/btn_color"
-                />
-
-            <TextView
-                android:id="@+id/country_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                app:layout_constraintStart_toEndOf="@id/country_flag"
-                app:layout_constraintTop_toTopOf="@id/country_flag"
-                app:layout_constraintBottom_toBottomOf="@id/country_flag"
-                tools:text="INDIA"
-                android:layout_marginEnd="5dp"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/red"
-                />
-            <ImageView
-                android:id="@+id/country_flag"
-                app:layout_constraintTop_toTopOf="@id/company_detail_com_image"
-                app:layout_constraintBottom_toBottomOf="@id/company_detail_com_image"
-                app:layout_constraintStart_toEndOf="@id/company_detail_com_image"
-                android:layout_width="35dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                tools:src="@drawable/flag_india"
-                />
-
-            <LinearLayout
-                android:id="@+id/container_detail"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:background="#f0f0f6"
-                app:layout_constraintTop_toBottomOf="@id/latestreliselistdate"
-                  android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                android:weightSum="2"
+                android:layout_height="match_parent"
+                android:background="@drawable/page_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_height="0dp">
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_financial_statement"
-                    android:layout_width="match_parent"
-                     app:layout_constraintTop_toTopOf="parent"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="8dp"
-                    android:layout_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginHorizontal="3dp"
-                    android:layout_marginTop="3dp"
-                    app:cardBackgroundColor="@color/app_color"
-                    android:layout_height="match_parent">
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:background="@drawable/et_search_bg"
-                        android:backgroundTint="@color/white"
-                        android:layout_margin="0.5dp"
-                        android:layout_height="match_parent">
-                        <TextView
-                            android:id="@+id/remaining_subscription"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            tools:text="Remaining Count 3 of 3"
-                            android:layout_margin="10dp"
-                            android:textAlignment="viewEnd"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:layout_marginStart="10dp"
-                            android:textColor="#C64343"
-                            />
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/home_company_financial_cv"
-                            android:layout_width="120dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="30dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="2dp"
-                            android:layout_height="120dp">
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/financialstatement"
-                                android:layout_margin="23dp"
-                                />
-                        </androidx.cardview.widget.CardView>
-                        <TextView
-                            android:id="@+id/home_company_financial_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/home_company_financial_cv"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:textColor="@color/btn_color"
-                            android:text="Financial Statements"
-                            android:textSize="14sp"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginBottom="20dp"
-                            app:layout_constraintBottom_toTopOf="@id/home_company_financial_hint"
-                            android:textAlignment="center"/>
-                        <TextView
-                            android:id="@+id/home_company_financial_hint"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:textColor="@color/grey"
-                            android:text="View quarterly and annual financial statements, auditors' opinions, and complete set of company financial notes."
-                            android:textSize="12sp"
-                            android:layout_marginHorizontal="10dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="20dp"
-                            />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_new_click"
-                    android:layout_width="match_parent"
-                    app:layout_constraintTop_toBottomOf="@id/cv_financial_statement"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/company_detail_com_image"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="10dp"
+                    android:elevation="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/company_financial"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/company_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginEnd="10dp"
+                    android:maxLines="2"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/country_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginHorizontal="3dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="20dp"
+                    app:layout_constraintStart_toEndOf="@id/country_name"
+                    app:layout_constraintTop_toTopOf="@id/country_name"
+                    tools:text="Abdullah A.M. AI-Khodari" />
+
+                <TextView
+                    android:id="@+id/delisteddate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="viewEnd"
+                    android:textAllCaps="true"
+                    android:textColor="@color/red"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/latestreliselistdate"
+                    app:layout_constraintTop_toTopOf="@id/latestreliselistdate"
+                    tools:text="Delisted On 04-NOV-21" />
+
+                <TextView
+                    android:id="@+id/latestreliselistdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/btn_color"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/delisteddate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/company_detail_com_image"
+                    tools:text="Last Released Report: Annual - 2018" />
+
+                <TextView
+                    android:id="@+id/country_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:textAlignment="viewEnd"
+                    android:textAllCaps="true"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/country_flag"
+                    app:layout_constraintStart_toEndOf="@id/country_flag"
+                    app:layout_constraintTop_toTopOf="@id/country_flag"
+                    tools:text="INDIA" />
+
+                <ImageView
+                    android:id="@+id/country_flag"
+                    android:layout_width="35dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintBottom_toBottomOf="@id/company_detail_com_image"
+                    app:layout_constraintStart_toEndOf="@id/company_detail_com_image"
+                    app:layout_constraintTop_toTopOf="@id/company_detail_com_image"
+                    tools:src="@drawable/flag_india" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    android:fitsSystemWindows="true"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:cardElevation="2dp"
-                    app:cardBackgroundColor="@color/app_color"
-                    app:cardCornerRadius="8dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    app:layout_constraintTop_toBottomOf="@id/latestreliselistdate">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cv_company_news"
+                    <LinearLayout
+                        android:id="@+id/container_detail"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="0.5dp"
-                        android:background="@drawable/et_search_bg"
-                        android:backgroundTint="@color/white">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="#f0f0f6"
+                        android:orientation="vertical"
+                        android:weightSum="2">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/home_news_cv"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="30dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardCornerRadius="100dp"
+                            android:id="@+id/cv_financial_statement"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="3dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@color/app_color"
+                            app:cardCornerRadius="8dp"
                             app:cardElevation="2dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <ImageView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_margin="23dp"
-                                android:src="@drawable/news_finance" />
+                                android:layout_margin="0.5dp"
+                                android:background="@drawable/et_search_bg"
+                                android:backgroundTint="@color/white">
+
+                                <TextView
+                                    android:id="@+id/remaining_subscription"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:textAlignment="viewEnd"
+                                    android:textColor="#C64343"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="Remaining Count 3 of 3" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/home_company_financial_cv"
+                                    android:layout_width="120dp"
+                                    android:layout_height="120dp"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_marginTop="30dp"
+                                    app:cardBackgroundColor="@color/white"
+                                    app:cardCornerRadius="100dp"
+                                    app:cardElevation="2dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="23dp"
+                                        android:src="@drawable/financialstatement" />
+                                </androidx.cardview.widget.CardView>
+
+                                <TextView
+                                    android:id="@+id/home_company_financial_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:text="Financial Statements"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/btn_color"
+                                    android:textSize="14sp"
+                                    app:layout_constraintBottom_toTopOf="@id/home_company_financial_hint"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/home_company_financial_cv" />
+
+                                <TextView
+                                    android:id="@+id/home_company_financial_hint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:text="View quarterly and annual financial statements, auditors' opinions, and complete set of company financial notes."
+                                    android:textColor="@color/grey"
+                                    android:textSize="12sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/home_company_news_title"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cv_new_click"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="3dp"
+                            android:layout_marginTop="3dp"
                             android:layout_marginBottom="20dp"
-                            android:text="Company News"
-                            android:textAlignment="center"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            app:layout_constraintBottom_toTopOf="@id/home_company_news_hint"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/home_news_cv" />
-
-                        <TextView
-                            android:id="@+id/home_company_news_hint"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="10dp"
-                            android:ellipsize="end"
-                            android:ems="3"
-                            android:text="Browse up-to-date news covering the GCC Countries'."
-                            android:textColor="@color/grey"
-                            android:textSize="13sp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@color/app_color"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="2dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                            app:layout_constraintTop_toBottomOf="@id/cv_financial_statement">
 
-            </LinearLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/cv_company_news"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="0.5dp"
+                                android:background="@drawable/et_search_bg"
+                                android:backgroundTint="@color/white">
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/home_news_cv"
+                                    android:layout_width="120dp"
+                                    android:layout_height="120dp"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_marginTop="30dp"
+                                    app:cardBackgroundColor="@color/white"
+                                    app:cardCornerRadius="100dp"
+                                    app:cardElevation="2dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="23dp"
+                                        android:src="@drawable/news_finance" />
+                                </androidx.cardview.widget.CardView>
+
+                                <TextView
+                                    android:id="@+id/home_company_news_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:text="Company News"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    app:layout_constraintBottom_toTopOf="@id/home_company_news_hint"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/home_news_cv" />
+
+                                <TextView
+                                    android:id="@+id/home_company_news_hint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:ellipsize="end"
+                                    android:ems="3"
+                                    android:text="Browse up-to-date news covering the GCC Countries'."
+                                    android:textColor="@color/grey"
+                                    android:textSize="13sp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

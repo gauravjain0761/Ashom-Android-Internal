@@ -6,8 +6,7 @@ import com.ashomapp.network.response.ResponseDTO
 import com.ashomapp.network.response.SearachDTO
 import com.ashomapp.network.response.auth.UserData
 import com.ashomapp.network.response.dashboard.*
-import com.ashomapp.presentation.home.stockPrice.model.StockHistoryModel
-import com.ashomapp.presentation.home.stockPrice.model.StockListModel
+import com.google.api.client.json.Json
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import retrofit2.http.*
@@ -158,22 +157,6 @@ interface HomeServices {
         @Path("year")year: String,
         @Path("period")period: String
     ) : List<CompanyStatementsDTO>
-
-
-    @GET("stock/getall")
-    suspend fun getStockList() : StockListModel
-
-
-
-    @GET("get/history")
-    suspend fun getStockHistory(
-        @Query("days") days: String,
-        @Query("weeks") weeks: String,
-        @Query("months") months: String,
-        @Query("years") year: String,
-        @Query("spread") spread: String,
-        @Query("stockname") stockName: String,
-    ) : StockHistoryModel
 
     @GET("webservice/countries")
     suspend fun getCountry(

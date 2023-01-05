@@ -199,6 +199,8 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 NetworkState.SUCCESS -> {
+                    ApplyGTMEvent("view_update_profile","view_update_profile_count","GTM_view_update_profile")
+
                     mBinding.updateSubmit.apply {
                         hideProgress("Update")
                         isClickable = true
@@ -220,7 +222,6 @@ class ProfileFragment : Fragment() {
                     }
                     // temp_showToast("Something went wrong try again")
                 }
-                else -> {}
             }
 
         }

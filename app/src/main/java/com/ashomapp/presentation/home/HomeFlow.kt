@@ -29,6 +29,8 @@ class HomeFlow {
 
         var notificationfragenable = false
 
+        var newsfragenable = false
+
         var sectionBottomID : Int = R.id.homeFrag
 
         var currentFragID : Int = R.id.homeFrag
@@ -139,10 +141,12 @@ class HomeFlow {
         var not_mHomePeriodselectionval = "Annual"
         var not_mHomeSelectedYear = ""
 
+
+        //changed by nj-4-10-22
         var not_mNewsPeriodselection = 0
         var not_mNewsPeriodselectionval = "Annual"
         var not_mNewsSelectedYear = ""
-
+        //
 
         var not_mFinancialPeriodselection = 0
         var not_mFinancialPeriodselectionval = "Annual"

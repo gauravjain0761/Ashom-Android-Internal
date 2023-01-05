@@ -4,7 +4,6 @@ package com.ashomapp.network.retrofit
 
 import com.ashomapp.AshomAppApplication
 import com.ashomapp.utils.API_URL
-import com.ashomapp.utils.STOCK_API_URL
 import okhttp3.Cache
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
@@ -49,14 +48,4 @@ private fun getRetrofitBuilder(): Retrofit.Builder {
 
 fun <T> getRetrofitService(clazz: Class<T>): T {
     return getRetrofitBuilder().build().create(clazz)
-}
-
-private fun getStockRetrofitBuilder(): Retrofit.Builder {
-    return Retrofit.Builder().baseUrl(STOCK_API_URL)
-        .client(getOkHttpClient())
-        .addConverterFactory(GsonConverterFactory.create())
-}
-
-fun <T> getStockRetrofitService(clazz: Class<T>): T {
-    return getStockRetrofitBuilder().build().create(clazz)
 }

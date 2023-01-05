@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.OvershootInterpolator
 import androidx.activity.OnBackPressedCallback
 import androidx.core.animation.doOnEnd
 import androidx.core.os.bundleOf
@@ -20,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.ashomapp.AshomAppApplication
 import com.ashomapp.R
@@ -28,23 +30,25 @@ import com.ashomapp.databinding.FragmentCompanyFragBinding
 import com.ashomapp.network.response.dashboard.CompanyDTO
 import com.ashomapp.network.response.dashboard.CountriesDTO
 import com.ashomapp.presentation.home.country.CompanyPagingAdapter
-import com.ashomapp.utils.hideKeyboard
-import com.ashomapp.utils.setanimation
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator
 import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter
 import androidx.recyclerview.widget.SimpleItemAnimator
 
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import com.ashomapp.MainActivity
 import com.ashomapp.database.AshomDBHelper
+import jp.wasabeef.recyclerview.animators.*
 import java.lang.Exception
+import android.os.Parcelable
 import com.ashomapp.presentation.search.SearchFrag
 import com.ashomapp.presentation.search.SearchViewModel
-import com.ashomapp.utils.companyCountrylist
-import com.ashomapp.utils.notificationcounter
+import com.ashomapp.utils.*
 
 
 class Company_frag : Fragment(), onCountryClick, onCompanyClick {
@@ -69,7 +73,7 @@ class Company_frag : Fragment(), onCountryClick, onCompanyClick {
 
             val list = db.getCompanyDataFromCOuntry(country_name)
 
-            Log.d("Companydbitemsdd", "$list")
+            Log.d("Companydbitemsdd", "${list.toString()}")
             companyAdapter = CompanyAdapter(list, this@Company_frag)
             Handler().postDelayed({
                 mBinding.recylcerCompany.adapter = companyAdapter
@@ -117,6 +121,8 @@ class Company_frag : Fragment(), onCountryClick, onCompanyClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        ApplyGTMEvent("company_list_view","company_list_view_count","company_list_view")
+
         if (HomeFlow.sectionBottomID == R.id.homeFrag) {
             HomeFlow.currentFragID = R.id.company_frag
         } else if (HomeFlow.sectionBottomID == R.id.countryList) {
@@ -465,7 +471,7 @@ class Company_frag : Fragment(), onCountryClick, onCompanyClick {
 
     }
 
-    override fun onCountryClick(countriesDTO: CountriesDTO, view: View, position: Int) {
+    override fun onCountryClick(countriesDTO: CountriesDTO) {
         if (mBinding.etCompanySearch.isFocused && mBinding.etCompanySearch.text.isNullOrEmpty()) {
             mBinding.etCompanySearch.setText("")
             mBinding.etCompanySearch.clearFocus()

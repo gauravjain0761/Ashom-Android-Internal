@@ -25,12 +25,10 @@ import retrofit.Result.response
 import org.json.JSONObject
 
 
-
-
-
 enum class NetworkState {
     LOADING_STARTED, LOADING_STOPPED, SUCCESS, FAILED, UN_AUTHORIZED
 }
+
 class AuthViewModel : ViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>("")
@@ -41,7 +39,7 @@ class AuthViewModel : ViewModel() {
     val mtoken = MutableLiveData<String>()
     val country_code = MutableLiveData<String>("971")
     val logintype = MutableLiveData<String>("normal")
-    val social_id  = MutableLiveData<String>("")
+    val social_id = MutableLiveData<String>("")
 
     val otp_verification_code = MutableLiveData<String>()
 
@@ -51,42 +49,89 @@ class AuthViewModel : ViewModel() {
     val otp_verified = MutableLiveData<Boolean>(false)
 
     val loginError = MutableLiveData<String>()
-    fun registered(){
+    fun registered() {
         registerNetworkState.value = NetworkState.LOADING_STARTED
         viewModelScope.launch {
-            val result = AuthRepository.Registration(firstname.value.toString(), lastname.value.toString(),
-                email.value.toString(), "${phone.value}", password.value.toString(),
-                logintype.value.toString(), social_id = social_id.value.toString(), countrycode = country_code.value.toString())
+            val result = AuthRepository.Registration(
+                firstname.value.toString(),
+                lastname.value.toString(),
+                email.value.toString(),
+                "${phone.value}",
+                password.value.toString(),
+                logintype.value.toString(),
+                social_id = social_id.value.toString(),
+                countrycode = country_code.value.toString()
+            )
             registerNetworkState.value = NetworkState.LOADING_STOPPED
-            when(result){
-                is ResultWrapper.Success ->{
-                   if (result.response.status){
+            when (result) {
+                is ResultWrapper.Success -> {
 
-                       registerNetworkState.value = NetworkState.SUCCESS
+                    if (result.response.status) {
 
-                   }else{
-                       registerNetworkState.value = NetworkState.FAILED
-                   }
+                        registerNetworkState.value = NetworkState.SUCCESS
+
+                    } else {
+                        registerNetworkState.value = NetworkState.FAILED
+                    }
                     Log.d("responsereg", result.response.toString())
-                   // temp_showToast("${result.response}")
+                    // temp_showToast("${result.response}")
                 }
-                is ResultWrapper.Failure ->{
+                is ResultWrapper.Failure -> {
+
+                    Log.d("signupresponse", result.errorMessage)
+                    Log.d("signupresponse", result.status_code.toString())
+
                     registerNetworkState.value = NetworkState.FAILED
                     try {
-                        val josnobject = JSONObject(result.errorMessage.toString())
 
-                           val phoneError =  "${josnobject.getString("mobile_error")}"
-                        val emailError =  "${josnobject.getString("email_error")}"
-                         // temp_showToast("$phoneError  $emailError")
-                            if (!phoneError.isNullOrEmpty()){
-                                loginError.value = phoneError
-                            }else if (!emailError.isNullOrEmpty()){
-                                loginError.value = emailError
-                            }
-                        Log.d("responseregjson", josnobject.toString() + "${josnobject.getString("message")}")
-                    }catch (e : Exception){
+                        var josnobject = JSONObject(result.errorMessage.toString())
+                        val eror = josnobject.getString("error")
+                        if (eror != null) {
+                            // temp_showToast(eror)
+                        }
+                        val phoneError = "${josnobject.getString("mobile_error")}"
+                        val emailError = "${josnobject.getString("email_error")}"
+                        val limit_error = "${josnobject.getString("error")}"
+                        // temp_showToast("$phoneError  $emailError")
+                        if (!phoneError.isNullOrEmpty()) {
+                            loginError.value = phoneError
+
+                        } else if (!emailError.isNullOrEmpty()) {
+                            loginError.value = emailError
+
+                        } else if (!limit_error.isNullOrEmpty()) {
+                            loginError.value = limit_error
+                        }
+                        Log.d(
+                            "responseregjson",
+                            josnobject.toString() + "${josnobject.getString("message")}"
+                        )
+                    } catch (e: Exception) {
                         Log.d("responseregjsonerror", e.localizedMessage.toString())
-                        loginNetworkState.value = NetworkState.FAILED
+
+                        if (result.status_code == 401) {
+                            val error = JSONObject(result.errorMessage)
+                            val limit_error = error.getString("error")
+                            if (limit_error != null) {
+                                loginError.value = limit_error.toString()+" after a minute."
+                                temp_showToast("Please try again after a minute.")
+                            }
+
+                        }
+                        if (result.status_code == 400) {
+                            val error = JSONObject(result.errorMessage)
+                            val email_error = error.getString("email_error")
+                            val mobile_error = error.getString("mobile_error")
+                            if (!email_error.isNullOrEmpty()) {
+                                loginError.value = email_error.toString()
+
+                            } else if (!mobile_error.isNullOrEmpty()) {
+                                loginError.value = mobile_error.toString()
+
+                            }
+
+                        }
+
 
                     }
                 }
@@ -94,104 +139,109 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun  userlogin(){
+    fun userlogin() {
         loginNetworkState.value = NetworkState.LOADING_STARTED
         viewModelScope.launch {
             val result = AuthRepository.userlogin(email.value.toString(), password.value.toString())
             loginNetworkState.value = NetworkState.LOADING_STOPPED
-            when(result){
-                is ResultWrapper.Success ->{
+            when (result) {
+                is ResultWrapper.Success -> {
 
-                       if (result.response.status){
-                           otp_verified.value = true
-                           HomeFrag.userToken.value = result.response.token
-                           SharedPrefrenceHelper.token = result.response.token
-                           loginNetworkState.value = NetworkState.SUCCESS
+                    if (result.response.status) {
+                        otp_verified.value = true
+                        HomeFrag.userToken.value = result.response.token
+                        SharedPrefrenceHelper.token = result.response.token
+                        loginNetworkState.value = NetworkState.SUCCESS
 
-                       }else{
-                           loginNetworkState.value = NetworkState.FAILED
-                       }
+                    } else {
+                        loginNetworkState.value = NetworkState.FAILED
+                    }
                     Log.d("responsereg", result.response.toString())
                     //  temp_showToast("${result.response}")
                 }
 
-                is ResultWrapper.Failure ->{
-                     try {
+                is ResultWrapper.Failure -> {
+                    try {
+                        val josnobject = JSONObject(result.errorMessage.toString())
+
+                        country_code.value = "${josnobject.getString("country_code")}"
+                        phone.value = "${josnobject.getString("mobile")}"
+                        email.value = "${josnobject.getString("user_email")}"
+                        Log.d(
+                            "responseregjson",
+                            josnobject.toString() + "${josnobject.getString("message")}"
+                        )
+
+                        loginNetworkState.value = NetworkState.UN_AUTHORIZED
+                    } catch (e: Exception) {
+                        Log.d(
+                            "responseregjsonerror",
+                            "${result.errorMessage}" + e.localizedMessage.toString()
+                        )
+                        try {
                             val josnobject = JSONObject(result.errorMessage.toString())
-
-                            country_code.value = "${josnobject.getString("country_code")}"
-                            phone.value = "${josnobject.getString("mobile")}"
-                            email.value = "${josnobject.getString("user_email")}"
-                         Log.d("responseregjson", josnobject.toString() + "${josnobject.getString("message")}")
-
-                         loginNetworkState.value = NetworkState.UN_AUTHORIZED
-                        }catch (e : Exception){
-                            Log.d("responseregjsonerror","${result.errorMessage}"+ e.localizedMessage.toString())
-                           try {
-                               val josnobject = JSONObject(result.errorMessage.toString())
-                               val error = josnobject.getString("login_error")
-                               val email_error = josnobject.getString("email_error")
-                               val password_error = josnobject.getString("password_error")
-                                //   temp_showToast("${(error)}.")
-                               if (!error.isNullOrEmpty()){
-                                   loginError.value = error
-                               }else if (!email_error.isNullOrEmpty()){
-                                   loginError.value = email_error
-                               }else if (!password_error.isNullOrEmpty()){
-                                   loginError.value = password_error
-                               }
-                               loginNetworkState.value = NetworkState.FAILED
-                           }catch (e : Exception){
-                               if (result.status_code == 400){
-                                   val josnobject = JSONObject(result.errorMessage.toString())
-                                   val error = josnobject.getString("message")
-                                   loginError.value = error
-                               }
-                               else{
-                                   loginError.value = e.message
-                               }
-                              // temp_showToast("Something went wrong. ${e.message.toString()}")
-                               loginNetworkState.value = NetworkState.FAILED
-                           }
-
-
+                            val error = josnobject.getString("login_error")
+                            val email_error = josnobject.getString("email_error")
+                            val password_error = josnobject.getString("password_error")
+                            //   temp_showToast("${(error)}.")
+                            if (!error.isNullOrEmpty()) {
+                                loginError.value = error
+                            } else if (!email_error.isNullOrEmpty()) {
+                                loginError.value = email_error
+                            } else if (!password_error.isNullOrEmpty()) {
+                                loginError.value = password_error
+                            }
+                            loginNetworkState.value = NetworkState.FAILED
+                        } catch (e: Exception) {
+                            if (result.status_code == 400) {
+                                val josnobject = JSONObject(result.errorMessage.toString())
+                                val error = josnobject.getString("message")
+                                loginError.value = error
+                            } else {
+                                loginError.value = e.message
+                            }
+                            // temp_showToast("Something went wrong. ${e.message.toString()}")
+                            loginNetworkState.value = NetworkState.FAILED
                         }
 
 
                     }
+
+
+                }
 
             }
         }
     }
 
 
-    fun  forgetPassword(){
+    fun forgetPassword() {
         forgetpassNetworkState.value = NetworkState.LOADING_STARTED
         viewModelScope.launch {
             val result = AuthRepository.forgetPassword(email.value.toString())
             forgetpassNetworkState.value = NetworkState.LOADING_STOPPED
-            when(result){
-                is ResultWrapper.Success ->{
+            when (result) {
+                is ResultWrapper.Success -> {
                     forgetpassNetworkState.value = NetworkState.SUCCESS
                     Log.d("responsereg", result.response.toString())
                     //  temp_showToast("${result.response}")
                 }
-                is ResultWrapper.Failure ->{
+                is ResultWrapper.Failure -> {
                     forgetpassNetworkState.value = NetworkState.FAILED
                     Log.d("responsereg", result.errorMessage.toString())
-                    if (result.status_code == 404){
+                    if (result.status_code == 404) {
                         try {
 
                             val josnobject = JSONObject(result.errorMessage.toString())
                             val email_error = josnobject.getString("email_error")
-                            if (!email_error.isNullOrEmpty()){
+                            if (!email_error.isNullOrEmpty()) {
                                 loginError.value = email_error
                             }
-                        }catch (e :Exception){
+                        } catch (e: Exception) {
                             Log.d("responsereg", e.toString())
                             temp_showToast("${result.errorMessage}")
                         }
-                    }else{
+                    } else {
                         temp_showToast("${result.errorMessage}")
                     }
 
@@ -200,9 +250,9 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-     fun  updateshareprefrenceValue(usertoken  : String){
-         SharedPrefrenceHelper.token = usertoken
-     }
+    fun updateshareprefrenceValue(usertoken: String) {
+        SharedPrefrenceHelper.token = usertoken
+    }
 
 
 }

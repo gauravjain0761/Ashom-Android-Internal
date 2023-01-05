@@ -3,37 +3,35 @@
     package="com.ashomapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:name=".AshomAppApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/app_icon_new"
+       android:icon="@mipmap/app_icon_new"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon_new_round"
-        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/CustomAshomappTheme"
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name=".presentation.stockDetails.FullStockGraphActivity"
-            android:exported="false" />
+        android:screenOrientation="portrait"
+        android:usesCleartextTraffic="true"
+        android:theme="@style/CustomAshomappTheme">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
         <service
             android:name=".presentation.notification.NotificationServices"
             android:exported="false">
@@ -41,20 +39,17 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.ashomapp.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/paths" />
-        </provider>
 
         <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/paths" />
+    </provider>
+
     </application>
 
 </manifest>

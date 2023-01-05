@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    app:cardUseCompatPadding="true"
+    app:cardMaxElevation="10dp"
+    app:cardCornerRadius="10dp"
+    android:layout_height="wrap_content">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/app_icon_new_background"
+        app:contentPadding="10dp"
+        >
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Error"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:textAlignment="center"
+            ></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Internal server error occurred!!\n Please try again after some time."
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:fontFamily="@font/segoe_ui_italic"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAlignment="center"
+                ></TextView>
+            <TextView
+                android:id="@+id/errorOkBtn"
+                android:layout_margin="8sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="ok"
+                android:paddingHorizontal="10dp"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/btn_bg"
+                ></TextView>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    </androidx.core.widget.NestedScrollView>
+</androidx.cardview.widget.CardView>
+</layout>

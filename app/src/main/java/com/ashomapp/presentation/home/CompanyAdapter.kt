@@ -51,9 +51,8 @@ class CompanyAdapter(val list: List<CompanyDTO>, val onCompanyClick: onCompanyCl
         fun bind(companyDTO: CompanyDTO, onCompanyClick: onCompanyClick) {
 
               Glide.with(AshomAppApplication.instance.applicationContext)
-                  .load(companyDTO.industry).placeholder(R.drawable.placeholder)
+                  .load(companyDTO.image).placeholder(R.drawable.placeholder)
                   .into(binding.itemCompanyImg)
-
               binding.itemCompanyName.text = "${companyDTO.Company_Name}"
               binding.itemCompanySymbolTicker.text ="${companyDTO.SymbolTicker}"
               binding.itemCompanyImg.setOnClickListener {

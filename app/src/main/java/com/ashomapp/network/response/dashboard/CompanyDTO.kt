@@ -1,41 +1,37 @@
 package com.ashomapp.network.response.dashboard
-
 import com.google.gson.annotations.SerializedName
-
 data class CompanyDTO(
 
     @SerializedName("id")
-    val id: String,
+    val id : String,
 
     @SerializedName("Company_Name")
-    var Company_Name: String,
+    val Company_Name : String,
 
 
     @SerializedName("SymbolTicker")
-    val SymbolTicker: String,
+    val SymbolTicker : String,
 
     @SerializedName("Country")
-    val Country: String,
+    val Country : String,
 
-    @SerializedName("industry")
-    val industry: String,
 
     @SerializedName("image")
-    val image: String,
+    val image : String,
 
     @SerializedName("DelistingDate")
-    val DelistingDate: String? = null,
+    val DelistingDate : String  ? = null,
 
     @SerializedName("company_status")
-    val company_status: String? = "",
+    val company_status : String ? = "",
 
-    @SerializedName("lastReport")
-    val lastReport: String? = null,
+     @SerializedName("lastReport")
+     val lastReport : String ? = null,
 
     @SerializedName("exchanges")
-    val exchanges: String? = "",
+    val exchanges : String ? = "",
 
     @SerializedName("Reference_No")
-    val Reference_No: String? = "",
+    val Reference_No : String ? = "",
 
     )

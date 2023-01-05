@@ -55,6 +55,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.squareup.moshi.Json
 import kotlinx.coroutines.withContext
 
 import org.json.JSONObject
@@ -100,6 +101,10 @@ class RegistrationForm : Fragment(), onCountryCodeClick {
             .load(R.raw.progress_gif)
 
             .into(mBinding.progressImg)
+
+        mBinding.signupFormCon.setOnClickListener {
+            hideKeyboard(requireContext(),it)
+        }
         setetanimaton()
         setupGoogleLogin()
         countryCodeList.clear()
@@ -137,13 +142,14 @@ class RegistrationForm : Fragment(), onCountryCodeClick {
         mAuthViewModel.password.value = ""
         mBinding.loginSubmit.setOnClickListener {
             hideKeyboard(AshomAppApplication.instance.applicationContext, it)
-
             setanimation(it)
             mAuthViewModel.social_id.value = ""
             mAuthViewModel.logintype.value = "normal"
             registration()
 
+
         }
+
         mBinding.loginToSignup.setOnClickListener {
             hideKeyboard(AshomAppApplication.instance.applicationContext, it)
             setanimation(it)
@@ -256,7 +262,6 @@ class RegistrationForm : Fragment(), onCountryCodeClick {
                     }
 
                 }
-                else -> {}
             }
         }
 
@@ -813,6 +818,9 @@ class RegistrationForm : Fragment(), onCountryCodeClick {
                             } else if (!password_error.isNullOrEmpty()) {
                                 successDialog(requireActivity(), "Alert!", password_error)
                             }
+
+
+
                         } catch (e: Exception) {
                             temp_showToast("Something went wrong. ${e.message.toString()}")
 

@@ -14,9 +14,11 @@ data class NewsItemDTO(
     @SerializedName("image_url")
     val image_url  : String,
     @SerializedName("source")
-    val source  : String ?= null,
+    val source  : String?=null,
     @SerializedName("link")
     val link  : String ,
+    @SerializedName("metadata")
+    var metadata: String,
     @SerializedName("created")
     val created  : String ?= null,
     @SerializedName("country")
@@ -25,6 +27,13 @@ data class NewsItemDTO(
     val company  : List<String>?= null,
     @SerializedName("created_date")
     val created_date  : String?= null
+
+
+
+
+
+
+
 
 ///created_date
 

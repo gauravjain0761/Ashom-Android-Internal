@@ -165,7 +165,14 @@ class OtpFragment : Fragment() {
                         hideProgress("VERIFY")
                         isClickable = true
                     }
-                    temp_showToast("${result.errorMessage}")
+                    val obj=JSONObject("${result.errorMessage}")
+                    val msg=obj.getString("message")
+                    if (msg!=null){
+                        temp_showToast("${msg}")
+                    }else{
+                        temp_showToast("Something went wrong.")
+                    }
+
                 }
             }
         }
@@ -195,8 +202,11 @@ class OtpFragment : Fragment() {
                     } else {
                         Log.d("otp", result.errorMessage)
                     }
+
+
                 }
             }
         }
     }
+
 }

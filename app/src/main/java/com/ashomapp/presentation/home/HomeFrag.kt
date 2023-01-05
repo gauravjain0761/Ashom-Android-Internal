@@ -39,22 +39,29 @@ import kotlinx.coroutines.launch
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import java.lang.Exception
 import android.R.string.no
+import android.app.Dialog
+import android.content.DialogInterface
 import com.android.billingclient.api.*
+import com.ashomapp.databinding.InternalServerErrrorBinding
 import com.ashomapp.presentation.notification.NotificationServices
 import com.ashomapp.presentation.search.SearchFrag
+import com.google.firebase.analytics.FirebaseAnalytics
+import org.json.JSONObject
 
 
 class HomeFrag : Fragment(), onCompanyClick {
-         private lateinit var mBinding : FragmentHomeBinding
+    private lateinit var mBinding: FragmentHomeBinding
     private val mHomeViewModel by activityViewModels<HomeViewModel>()
     private val mSearchViewModel by activityViewModels<SearchViewModel>()
     var search_itemclick = false
 
     val db = AshomDBHelper(AshomAppApplication.instance.applicationContext, null)
-    companion object{
-        val  userToken =MutableLiveData<String>("")
+
+    companion object {
+        val userToken = MutableLiveData<String>("")
     }
-    private lateinit var mAdapter : SearchlistItemAdapter
+
+    private lateinit var mAdapter: SearchlistItemAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,12 +74,20 @@ class HomeFrag : Fragment(), onCompanyClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-       // loginDialog()
-        notificationcounter.observe(this.viewLifecycleOwner){
-            if (it != 0){
+        // loginDialog()
+
+        var mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+
+        val params = Bundle()
+        params.putString("click_home", "click_home_clicked")
+        mFirebaseAnalytics.logEvent("click_home", params)
+        mFirebaseAnalytics.setDefaultEventParameters(params)
+
+        notificationcounter.observe(this.viewLifecycleOwner) {
+            if (it != 0) {
                 mBinding.mtoolbar.iconBadges.text = it.toString()
                 mBinding.mtoolbar.iconBadges.visibility = View.VISIBLE
-            }else{
+            } else {
                 mBinding.mtoolbar.iconBadges.visibility = View.GONE
             }
         }
@@ -89,26 +104,29 @@ class HomeFrag : Fragment(), onCompanyClick {
 
 
         }
-          hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
+        //hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Handle the back button event
                 requireActivity().finish()
             }
         }
-        requireActivity().onBackPressedDispatcher.addCallback(this.viewLifecycleOwner, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this.viewLifecycleOwner,
+            onBackPressedCallback
+        )
         try {
-           val argument = arguments?.getString("logincome")
-           if (!argument.isNullOrEmpty()){
-               loginDialog()
+            val argument = arguments?.getString("logincome")
+            if (!argument.isNullOrEmpty()) {
+                loginDialog()
 
-               this.arguments?.clear()
-           }
-       }catch (e :Exception){
-           Log.d("Error", e.localizedMessage)
-       }
-        userToken.observe(viewLifecycleOwner){
-            if (!it.isNullOrEmpty()){
+                this.arguments?.clear()
+            }
+        } catch (e: Exception) {
+            Log.d("Error", e.localizedMessage)
+        }
+        userToken.observe(viewLifecycleOwner) {
+            if (!it.isNullOrEmpty()) {
                 SharedPrefrenceHelper.token = it
                 getUserData()
             }
@@ -119,98 +137,87 @@ class HomeFrag : Fragment(), onCompanyClick {
                 val currentToken = it.result
                 currentToken?.let { token ->
                     val myToken = SharedPrefrenceHelper.devicetoken
-                    if (!token.equals(myToken)){
-                         Updatetoken(token)
+                    if (!token.equals(myToken)) {
+                        Updatetoken(token)
                     }
                     Log.d("token", token)
                 }
             }
         }
-         mBinding.mtoolbar.mainBack.visibility = View.GONE
+        mBinding.mtoolbar.mainBack.visibility = View.GONE
         mBinding.cvFinancialReport.setOnClickListener {
-            if (mBinding.homeSearch.isFocused && mBinding.homeSearch.text.isNullOrEmpty()){
+            if (mBinding.homeSearch.isFocused && mBinding.homeSearch.text.isNullOrEmpty()) {
                 hideKeyboard(AshomAppApplication.instance.applicationContext, it)
                 mBinding.homeSearch.clearFocus()
-            }else{
+            } else {
                 hideKeyboard(AshomAppApplication.instance.applicationContext, it)
                 MainActivity.financialtab = true
                 mBinding.homeSearch.clearFocus()
-                MainActivity.financiallistanimation = MainActivity.financiallistanimation+1
+                MainActivity.financiallistanimation = MainActivity.financiallistanimation + 1
                 Handler().postDelayed({
-                   findNavController().navigate(R.id.action_homeFrag_to_countryList)
-                },100)
+                    findNavController().navigate(R.id.action_homeFrag_to_countryList)
+                }, 100)
             }
         }
-
-        mBinding.cvStockPrices.setOnClickListener {
-            if (mBinding.homeSearch.isFocused && mBinding.homeSearch.text.isNullOrEmpty()){
-                hideKeyboard(AshomAppApplication.instance.applicationContext, it)
-                mBinding.homeSearch.clearFocus()
-            }else{
-                hideKeyboard(AshomAppApplication.instance.applicationContext, it)
-                MainActivity.financialtab = true
-                mBinding.homeSearch.clearFocus()
-                MainActivity.financiallistanimation = MainActivity.financiallistanimation+1
-                findNavController().navigate(R.id.action_homeFrag_to_stockprice)
-            }
-        }
-
-
         mBinding.mtoolbar.toolProfile.setOnClickListener {
 
-            hideKeyboard(AshomAppApplication.instance.applicationContext,it)
+            hideKeyboard(AshomAppApplication.instance.applicationContext, it)
             mBinding.homeSearch.clearFocus()
             Handler().postDelayed({
 
-             findNavController().navigate(R.id.action_homeFrag_to_settingFrag)
+                findNavController().navigate(R.id.action_homeFrag_to_settingFrag)
 
-         },100)
+            }, 100)
         }
 
         mBinding.mtoolbar.notificationBellIcon.setOnClickListener {
 
-            hideKeyboard(AshomAppApplication.instance.applicationContext,it)
+            hideKeyboard(AshomAppApplication.instance.applicationContext, it)
             mBinding.homeSearch.clearFocus()
             Handler().postDelayed({
                 findNavController().navigate(R.id.notificationFrag)
-            },100)
+            }, 100)
         }
 
         mBinding.cvNewClick.setOnClickListener {
-           if (mBinding.homeSearch.isFocused && mBinding.homeSearch.text.isNullOrEmpty()){
-               hideKeyboard(AshomAppApplication.instance.applicationContext,it)
-               mBinding.homeSearch.clearFocus()
-           }else{
-               HomeFlow.home_to_news = true
-               hideKeyboard(AshomAppApplication.instance.applicationContext,it)
-               mBinding.homeSearch.clearFocus()
-               mHomeViewModel.recordEvent("view_countries_news")
-               Handler().postDelayed({
+            if (mBinding.homeSearch.isFocused && mBinding.homeSearch.text.isNullOrEmpty()) {
+                hideKeyboard(AshomAppApplication.instance.applicationContext, it)
+                mBinding.homeSearch.clearFocus()
+            } else {
+                HomeFlow.home_to_news = true
+                hideKeyboard(AshomAppApplication.instance.applicationContext, it)
+                mBinding.homeSearch.clearFocus()
+                mHomeViewModel.recordEvent("view_countries_news")
+                Handler().postDelayed({
 
-                   findNavController().navigate(R.id.action_homeFrag_to_newsFrag)
+                    findNavController().navigate(R.id.action_homeFrag_to_newsFrag)
 
-               },100)
-           }
+                }, 100)
+            }
         }
         mBinding.searchRv.visibility = View.GONE
 
-       mHomeViewModel.Searchcompanieslist.observe(this.viewLifecycleOwner){
-           mAdapter = SearchlistItemAdapter(it, this)
-           mBinding.searchRv.adapter =mAdapter
-           mAdapter.notifyDataSetChanged()
-       }
+        mHomeViewModel.Searchcompanieslist.observe(this.viewLifecycleOwner) {
+            mAdapter = SearchlistItemAdapter(it, this)
+            mBinding.searchRv.adapter = mAdapter
+            mAdapter.notifyDataSetChanged()
+        }
 
         mBinding.homeSearch.doOnTextChanged { text, start, before, count ->
-            if (text?.length != 0 ){
+
+
+            if (text?.length != 0) {
+                ApplyGTMEvent("click_home_search", "home_search_count", "click_home_search")
+
                 // mSearchViewModel.getSearchStr(text.toString())
                 search_itemclick = true
-                 MainActivity.bottomhideunhide.value = true
+                MainActivity.bottomhideunhide.value = true
                 mBinding.searchRv.visibility = View.VISIBLE
                 mHomeViewModel.getSearchCompany("0", text.toString())
                 mBinding.homeSearchIcon.setImageResource(R.drawable.ic_close_search)
 
 
-            }else{
+            } else {
                 MainActivity.bottomhideunhide.value = false
 
                 search_itemclick = false
@@ -221,7 +228,7 @@ class HomeFrag : Fragment(), onCompanyClick {
             }
         }
         mBinding.homeSearchIcon.setOnClickListener {
-            if (mBinding.homeSearch.text.length > 0){
+            if (mBinding.homeSearch.text.length > 0) {
                 mBinding.homeSearch.setText("")
                 mBinding.homeSearch.clearFocus()
                 MainActivity.bottomhideunhide.value = false
@@ -233,53 +240,95 @@ class HomeFrag : Fragment(), onCompanyClick {
     }
 
 
-
     private fun Updatetoken(token: String) {
-          lifecycleScope.launch {
-              val result = HomeRepository.updateToken(token)
-              when(result){
-                  is ResultWrapper.Success ->{
-                      SharedPrefrenceHelper.devicetoken = token
-                      try {
-                          val user = SharedPrefrenceHelper.user
-                          if (!user.subscription_type.equals("Yearly")){
-                              val args = bundleOf("where" to "home")
-                              findNavController().navigate(R.id.subscriptionDialog, args)
-                          }
-                      }catch (e :Exception){
-                          e.printStackTrace()
-                      }
-                  }
-                  is ResultWrapper.Failure ->{
-                      Log.d("errorupdatingtoken", result.errorMessage)
-                  }
-              }
-          }
+        lifecycleScope.launch {
+            val result = HomeRepository.updateToken(token)
+            when (result) {
+                is ResultWrapper.Success -> {
+                    SharedPrefrenceHelper.devicetoken = token
+                    try {
+                        val user = SharedPrefrenceHelper.user
+                        if (!user.subscription_type.equals("Yearly")) {
+                            val args = bundleOf("where" to "home")
+                            findNavController().navigate(R.id.subscriptionDialog, args)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                is ResultWrapper.Failure -> {
+                    var msg: String? = null
+                    try {
+                        val obj = JSONObject("${result.errorMessage}")
+                        msg = obj.getString("message")
+                        if (msg != null) {
+                            temp_showToast("${msg}")
+                            logout(null)
+                        }
+                        Log.d("errorupdatingtoken", result.errorMessage)
+                    } catch (e: Exception) {
+                        if (result.status_code == 500) {
+                            temp_showToast("Internal server error.")
+                        }
+                    }
+                }
+            }
+        }
     }
 
-    private fun getUserData(){
+    private fun logout(dialog: DialogInterface?) {
+
+        lifecycleScope.launch {
+            val result = HomeRepository.UserLogout()
+            when (result) {
+                is ResultWrapper.Success -> {
+                    SharedPrefrenceHelper.devicetoken = "0"
+                    SharedPrefrenceHelper.token = "0"
+                    MainActivity.usertoken.value = ""
+                    selectedCompaniesList.value = emptyList()
+                    val navOptions =
+                        NavOptions.Builder().setPopUpTo(R.id.homeFrag, true).build()
+                    findNavController().navigate(R.id.loginFragment, null, navOptions)
+
+                }
+                is ResultWrapper.Failure -> {
+                    SharedPrefrenceHelper.devicetoken = "0"
+                    SharedPrefrenceHelper.token = "0"
+                    MainActivity.usertoken.value = ""
+                    val navOptions =
+                        NavOptions.Builder().setPopUpTo(R.id.homeFrag, true).build()
+                    findNavController().navigate(R.id.loginFragment, null, navOptions)
+                }
+            }
+        }
+
+    }
+
+    private fun getUserData() {
         lifecycleScope.launch {
             val result = HomeRepository.getUserData(SharedPrefrenceHelper.token.toString())
-            when(result){
-                is ResultWrapper.Success ->{
+            when (result) {
+                is ResultWrapper.Success -> {
                     //username.value = "${result.response.userdata.first_name} ${result.response.userdata.last_name}"
-                  //  profileImage.value = "${result.response.userdata.profile_pic}"
-                    Glide.with(AshomAppApplication.instance.applicationContext).load(result.response.userdata.profile_pic).into(mBinding.mtoolbar.mainProfilePic)
+                    //  profileImage.value = "${result.response.userdata.profile_pic}"
+                    Glide.with(AshomAppApplication.instance.applicationContext)
+                        .load(result.response.userdata.profile_pic)
+                        .into(mBinding.mtoolbar.mainProfilePic)
                     SharedPrefrenceHelper.user = result.response.userdata
                 }
-                is ResultWrapper.Failure ->{
+                is ResultWrapper.Failure -> {
                     Log.d("usererrordd", "${result.errorMessage}")
                 }
             }
         }
     }
 
-    private fun loginDialog(){
-        successDialog(requireActivity(), "Success","User Login Successfully.")
+    private fun loginDialog() {
+        successDialog(requireActivity(), "Success", "User Login Successfully.")
     }
 
     override fun onCompanyItemClick(companyDTO: CompanyDTO) {
-        if (search_itemclick){
+        if (search_itemclick) {
             mSearchViewModel.getSearchStr("CompanyName✂${companyDTO.Country}✂${companyDTO.SymbolTicker}✂${companyDTO.image}✂${companyDTO.Company_Name}✂${companyDTO.id}")
             SearchFrag.reloadlist = true
         }
@@ -289,25 +338,25 @@ class HomeFrag : Fragment(), onCompanyClick {
         mBinding.homeSearch.clearFocus()
         hideKeyboard(AshomAppApplication.instance.applicationContext, mBinding.root)
 
-        val dbcompanyDTO  = db.getSingleCompany(companyDTO.id)
+        val dbcompanyDTO = db.getSingleCompany(companyDTO.id)
         val companydetail = Gson().toJson(dbcompanyDTO)
         val args = bundleOf("company_detail" to companydetail)
         HomeFlow.companydetailfromsearch = true
         HomeFlow.companydetailanimation = true
 
-       Handler().postDelayed({
-              /* val fragment = CompanyDetail()
-           fragment.arguments = args
-           val activity = requireActivity() as MainActivity
-           val fragManager = activity.supportFragmentManager
-           fragManager.beginTransaction()
-               .add(R.id.home_frameLayout,fragment)
-               .commit()*/
+        Handler().postDelayed({
+            /* val fragment = CompanyDetail()
+         fragment.arguments = args
+         val activity = requireActivity() as MainActivity
+         val fragManager = activity.supportFragmentManager
+         fragManager.beginTransaction()
+             .add(R.id.home_frameLayout,fragment)
+             .commit()*/
 
-           HomeFlow.companydetailbundle = args
-      findNavController().navigate(R.id.action_homeFrag_to_companyDetail, args)
+            HomeFlow.companydetailbundle = args
+            findNavController().navigate(R.id.action_homeFrag_to_companyDetail, args)
 
-       },100)
+        }, 100)
     }
 
     override fun onPause() {
@@ -318,18 +367,17 @@ class HomeFrag : Fragment(), onCompanyClick {
 
     override fun onResume() {
         super.onResume()
-      try {
-          if (!SharedPrefrenceHelper.user.profile_pic.isNullOrEmpty()){
-              Glide.with(AshomAppApplication.instance.applicationContext).load(SharedPrefrenceHelper.user.profile_pic).into(mBinding.mtoolbar.mainProfilePic)
+        try {
+            if (!SharedPrefrenceHelper.user.profile_pic.isNullOrEmpty()) {
+                Glide.with(AshomAppApplication.instance.applicationContext)
+                    .load(SharedPrefrenceHelper.user.profile_pic)
+                    .into(mBinding.mtoolbar.mainProfilePic)
 
-          }
-      }catch (e :Exception){
-          Log.d("data", "df")
-      }
+            }
+        } catch (e: Exception) {
+            Log.d("data", "df")
+        }
     }
-
-
-
 
 
 }

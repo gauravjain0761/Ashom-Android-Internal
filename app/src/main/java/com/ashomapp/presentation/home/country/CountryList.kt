@@ -26,6 +26,7 @@ import com.ashomapp.databinding.FragmentCountryListBinding
 import com.ashomapp.network.response.dashboard.CountriesDTO
 import com.ashomapp.presentation.home.*
 import com.ashomapp.presentation.home.HomeMainContainer.Companion.hometoCompanyBundle
+import com.ashomapp.utils.ApplyGTMEvent
 import com.ashomapp.utils.hideKeyboard
 import com.ashomapp.utils.notificationcounter
 import com.ashomapp.utils.setanimation
@@ -52,6 +53,7 @@ class CountryList : Fragment(), onCountryGridClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ApplyGTMEvent("click_financial","click_financial_count","click_financial")
         if (HomeFlow.sectionBottomID == R.id.homeFrag) {
             HomeFlow.currentFragID = R.id.countryList
         } else if (HomeFlow.sectionBottomID == R.id.countryList) {
@@ -114,7 +116,7 @@ class CountryList : Fragment(), onCountryGridClick {
         mBinding.mtoolbar.toolProfile.setOnClickListener {
             findNavController().navigate(R.id.action_countryList_to_settingFrag)
         }
-        if (!SharedPrefrenceHelper.user.profile_pic.isNullOrEmpty()) {
+        if (!SharedPrefrenceHelper.user!!.profile_pic.isNullOrEmpty()) {
             Glide.with(AshomAppApplication.instance.applicationContext)
                 .load(SharedPrefrenceHelper.user.profile_pic).into(mBinding.mtoolbar.mainProfilePic)
 

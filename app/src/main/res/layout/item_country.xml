@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:id="@+id/item_country_container"
         android:layout_width="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal"
         android:background="@drawable/flag_bg"
-        android:paddingHorizontal="@dimen/_5sdp"
         android:layout_marginVertical="2dp"
         android:layout_marginStart="5dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="35dp"
             android:layout_margin="5dp"
@@ -44,52 +35,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             tools:text="Bahrain"
-            android:textSize="11dp"
+            android:textSize="10dp"
             android:paddingEnd="10dp"
             android:textColor="@color/black"
             android:gravity="center"
             />
     </LinearLayout>
-
-        <TextView
-            android:id="@+id/dfm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:background="@drawable/flag_bg"
-            android:fontFamily="@font/poppins_medium"
-            android:paddingVertical="@dimen/_4sdp"
-            android:text="DFM"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            android:gravity="center"
-            app:layout_constraintEnd_toStartOf="@+id/adx"
-            app:layout_constraintStart_toStartOf="@id/item_country_container"
-            app:layout_constraintTop_toBottomOf="@id/item_country_container" />
-
-        <TextView
-            android:id="@+id/adx"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/flag_bg"
-            android:layout_marginStart="@dimen/_2sdp"
-            android:fontFamily="@font/poppins_medium"
-            android:paddingVertical="@dimen/_4sdp"
-            android:text="ADX"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="@+id/item_country_container"
-            app:layout_constraintBottom_toBottomOf="@id/dfm"
-            app:layout_constraintStart_toEndOf="@id/dfm"
-            app:layout_constraintTop_toTopOf="@id/dfm" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/uaeSubCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="adx,dfm"
-            android:visibility="gone"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

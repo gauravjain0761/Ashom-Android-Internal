@@ -35,6 +35,7 @@ import com.google.android.material.chip.ChipDrawable
 import android.graphics.drawable.TransitionDrawable
 import androidx.activity.OnBackPressedCallback
 import com.ashomapp.presentation.home.HomeFlow
+import com.ashomapp.utils.ApplyGTMEvent
 
 
 class PollForumFrag : Fragment() {
@@ -120,6 +121,8 @@ class PollForumFrag : Fragment() {
                     }
                 }
                 NetworkState.SUCCESS -> {
+                    ApplyGTMEvent("posted_poll_forum","posted_poll_forum_count","posted_poll_forum")
+
                     mBinding.postForum.apply {
                         hideProgress("Post")
                         isClickable = true
@@ -139,7 +142,6 @@ class PollForumFrag : Fragment() {
 
                 }
 
-                else -> {}
             }
 
         }

@@ -152,7 +152,6 @@ class ForgetPassword : Fragment() {
                     }
 
                 }
-                else -> {}
             }
         })
 

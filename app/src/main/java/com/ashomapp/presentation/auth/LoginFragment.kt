@@ -151,6 +151,8 @@ class LoginFragment : Fragment() {
             hideKeyboard(AshomAppApplication.instance.applicationContext, it)
             setanimation(it)
             mAuthViewModel.logintype.value = "normal"
+            //added by nj
+            ApplyGTMEvent("login_click","login_click_count","login_click")
             userlogin()
 
         }

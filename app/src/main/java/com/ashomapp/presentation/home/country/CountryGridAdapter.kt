@@ -40,23 +40,18 @@ class CountryGridAdapter(
                 onCountryClick.onCountryClick(countriesDTO)
             }
             try {
-                when (countriesDTO.country) {
-                    "KSA" -> {
-                        mBinding.countryFlag.setImageResource(R.drawable.ksaflag)
-                    }
-                    "UAE" -> {
-                        mBinding.countryFlag.setImageResource(R.drawable.uae_flag)
-                    }
-                    "All Countries" -> {
-                        mBinding.countryFlag.setImageResource(R.drawable.all_countries)
-                        mBinding.root.visibility = View.GONE
-                    }
-                    else -> {
-                        Glide.with(AshomAppApplication.instance.applicationContext)
-                            .load("https://countryflagsapi.com/png/${countriesDTO.country}")
-                            .placeholder(R.drawable.placeholder)
-                            .into(mBinding.countryFlag)
-                    }
+                if (countriesDTO.country.equals("KSA")) {
+                    mBinding.countryFlag.setImageResource(R.drawable.ksaflag)
+                } else if (countriesDTO.country.equals("UAE")) {
+                    mBinding.countryFlag.setImageResource(R.drawable.uae_flag)
+                } else if (countriesDTO.country.equals("All Countries")) {
+                    mBinding.countryFlag.setImageResource(R.drawable.all_countries)
+                    mBinding.root.visibility = View.GONE
+                } else {
+                    Glide.with(AshomAppApplication.instance.applicationContext)
+                        .load("https://countryflagsapi.com/png/${countriesDTO.country}")
+                        .placeholder(R.drawable.placeholder)
+                        .into(mBinding.countryFlag)
                 }
 
             } catch (e: Exception) {
@@ -101,7 +96,7 @@ class CountryGridAdapter(
                                 .contains(charSearch.uppercase(Locale.ROOT))
                         ) {
                             resultList.add(row)
-                            Log.d("filterdata132", charSearch)
+                            Log.d("filterdata132", charSearch.toString())
 
                         }
                     }

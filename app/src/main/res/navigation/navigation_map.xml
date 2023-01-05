@@ -144,6 +144,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_newsFrag_to_financialStatementfrag"
+            app:destination="@id/financialStatementfrag" />
     </fragment>
     <fragment
         android:id="@+id/forumFrag"
@@ -217,12 +220,6 @@
             app:popUpToSaveState="true"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
-
-        <action
-            android:id="@+id/action_homeFrag_to_stockprice"
-            app:destination="@id/stockPriceFragment"
-            />
-
         <action
             android:id="@+id/action_homeFrag_to_subscriptionDialog"
             app:destination="@id/subscriptionDialog"
@@ -578,28 +575,6 @@
         android:name="com.ashomapp.presentation.home.HomeMainContainer"
         android:label="HomeMainContainer"
         tools:layout="@layout/fragment_home_main_container"/>
-    <fragment
-        android:id="@+id/stockPriceFragment"
-        android:name="com.ashomapp.presentation.home.stockPrice.StockListFragment"
-        android:label="fragment_stock_price"
-        tools:layout="@layout/fragment_stock_price" >
-
-        <action
-            android:id="@+id/action_stockList_to_stockDetails"
-            app:destination="@id/stockDetailsFragment"
-            />
-
-    </fragment>
-    <fragment
-        android:id="@+id/stockDetailsFragment"
-        android:name="com.ashomapp.presentation.stockDetails.StockDetailsFragment"
-        android:label="fragment_stock_details"
-        tools:layout="@layout/fragment_stock_details" />
-    <fragment
-        android:id="@+id/fullStockGraphFragment"
-        android:name="com.ashomapp.presentation.stockDetails.FullStockGraphFragment"
-        android:label="FullStockGraphFragment"
-        tools:layout="@layout/fragment_full_stock_graph"/>
 
 
 </navigation>

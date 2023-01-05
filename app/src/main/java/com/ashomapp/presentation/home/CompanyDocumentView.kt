@@ -20,6 +20,7 @@ import com.ashomapp.database.SharedPrefrenceHelper
 import com.ashomapp.databinding.FragmentCompanyDocumentViewBinding
 import com.ashomapp.network.response.dashboard.CompanyStatementsDTO
 import com.ashomapp.network.response.dashboard.RemainingCompanyDTO
+import com.ashomapp.utils.ApplyGTMEvent
 import com.ashomapp.utils.hideKeyboard
 import com.ashomapp.utils.notificationcounter
 import com.ashomapp.utils.setanimation
@@ -98,6 +99,11 @@ class CompanyDocumentView : Fragment() {
         if (!args.isNullOrEmpty()) {
             val newsitem = Gson().fromJson(args, CompanyStatementsDTO::class.java)
             mBinding.documentViewTitle.text = "${newsitem.document_name}"
+          //by nishant 4-10-22
+            if(newsitem.document_name.equals("Financial Report")){
+                ApplyGTMEvent("company_report","company_report_count","company_report")
+            }
+
             RetrivePDFfromUrl(mBinding.idPDFView).execute(newsitem.document_link)
             Log.d(
                 "url",

@@ -3,6 +3,9 @@ package com.ashomapp.network.response.dashboard
 import com.google.gson.annotations.SerializedName
 
 data class ForumDTO(
+
+    @SerializedName("metadata")
+    var metadata: String,
          @SerializedName("id")
          val id : String,
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.core.os.bundleOf
@@ -67,6 +68,9 @@ class ForumFrag : Fragment(), onForumClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadingDialog()
+        ApplyGTMEvent("forum_click", "forum click_count", "forum_click")
+
+
         HomeFlow.forumCurrentID = R.id.forumFrag
         mBinding.mtoolbar.mainBack.visibility = View.GONE
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
@@ -170,6 +174,9 @@ class ForumFrag : Fragment(), onForumClick {
 
         }
 
+       //we can hide bell icon in case of small width
+        // checkOverlap(mBinding.mtoolbar.icon, mBinding.mtoolbar.notificationBellIcon)
+
         mBinding.recycleForum.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -185,6 +192,18 @@ class ForumFrag : Fragment(), onForumClick {
         })
     }
 
+    private fun checkOverlap(view: View, view1: View) {
+        if (view.isOverlap(view1)) {
+        mBinding.mtoolbar.notificationBellIcon.apply {
+            this.visibility=View.VISIBLE
+        }
+        }else{
+            mBinding.mtoolbar.notificationBellIcon.apply {
+                this.visibility=View.GONE
+            }
+        }
+    }
+
 
     private fun create_forum() {
         bottomSheetDialog = BottomSheetDialog(requireContext())
@@ -198,11 +217,19 @@ class ForumFrag : Fragment(), onForumClick {
         bottomSheetDialog.setContentView(bottomsheetview)
         bottomSheetDialog.show()
         cv_compose_forum.setOnClickListener {
+            ApplyGTMEvent(
+                "created_compose_forum",
+                "compose_forum_click_count",
+                "created_compose_forum"
+            )
+
             homeviewmodel.recordEvent("create_compose_forum")
             bottomSheetDialog.dismiss()
             findNavController().navigate(R.id.action_forumFrag_to_composeFrag)
         }
         cv_poll_forum.setOnClickListener {
+            ApplyGTMEvent("created_poll_forum", "poll_forum_created_count", "created_poll_forum")
+
             homeviewmodel.recordEvent("create_poll_forum")
             bottomSheetDialog.dismiss()
             findNavController().navigate(R.id.action_forumFrag_to_pollForumFrag)
@@ -217,7 +244,7 @@ class ForumFrag : Fragment(), onForumClick {
                     is ResultWrapper.Success -> {
                         forumDTO.voted = true
                     }
-                    is ResultWrapper.Failure -> { }
+                    is ResultWrapper.Failure -> {}
                 }
             }
         } else {
@@ -252,7 +279,7 @@ class ForumFrag : Fragment(), onForumClick {
                     }
                     Fadapter.notifyDataSetChanged()
                 }
-                is ResultWrapper.Failure -> { }
+                is ResultWrapper.Failure -> {}
             }
         }
     }
@@ -277,7 +304,7 @@ class ForumFrag : Fragment(), onForumClick {
                     }
                     Fadapter.notifyDataSetChanged()
                 }
-                is ResultWrapper.Failure -> { }
+                is ResultWrapper.Failure -> {}
             }
         }
     }
@@ -334,6 +361,7 @@ class ForumFrag : Fragment(), onForumClick {
     override fun onForumDetail(forumDTO: ForumDTO, position: Int) {
         val adas = forumDTO.content.split("@").toTypedArray()
         val newsItemDTO = NewsItemDTO(
+            metadata = "${forumDTO.metadata}",
             title = "${adas[0]}",
             image_url = "${forumDTO.content}",
             link = try {
@@ -398,6 +426,7 @@ class ForumFrag : Fragment(), onForumClick {
                 is ResultWrapper.Success -> {
                     loadingEnableDisable.value = false
                     temp_showToast("Forum deleted successfully.")
+                    ApplyGTMEvent("deleted_forum", "deleted_forum_click_count", "deleted_forum")
                     Fadapter.notifyItemRemoved(position)
                     HomeFlow.reloadForum = true
                 }

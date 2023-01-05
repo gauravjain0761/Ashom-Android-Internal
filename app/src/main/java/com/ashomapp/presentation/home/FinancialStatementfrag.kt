@@ -88,9 +88,21 @@ class FinancialStatementfrag : Fragment(), onYearClick, onDocumentClick {
         var searchsetYear = 0
 
 
+        //changed by nj-4-10-22
+        var fromnewssection=0
+
         var mFinancialPeriodselection = 0
         var mFinancialPeriodselectionval = "Annual"
         var mFinancialSelectedYear = ""
+
+
+        //changed by nj-4-10-22
+        var mNewsPeriodselection = 0
+        var mNewsPeriodselectionval = "Annual"
+        var mNewsSelectedYear = ""
+
+
+
 
         var mNotificationPeriodselection = 0
         var mNotificationPeriodselectionval = "Annual"
@@ -175,6 +187,11 @@ class FinancialStatementfrag : Fragment(), onYearClick, onDocumentClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+        ApplyGTMEvent("financial_Statement_view","financial_Statement_view_count","financial_Statement_view")
+
+
+
         MainActivity.intentforCompany.value = ""
         notificationcounter.observe(this.viewLifecycleOwner) {
             if (it != 0) {
@@ -207,7 +224,40 @@ class FinancialStatementfrag : Fragment(), onYearClick, onDocumentClick {
                 HomeFlow.search_to_notification = true
                 HomeFlow.searchtoNotificationCurrentFragID = R.id.financialStatementfrag
             }
-        } else if (HomeFlow.profilefragenable) {
+        }
+
+        //changed by nj-4-10-22
+        else if (HomeFlow.newsfragenable) {
+            mperiodselection = HomeFlow.pro_mHomePeriodselection
+            mHomeViewModel.mPeriod.value = HomeFlow.pro_mHomePeriodselectionval
+            mBinding.periodselection = mperiodselection
+            mHomeViewModel.myear.value = HomeFlow.pro_mHomeSelectedYear
+            mBinding.yearTv.setText(HomeFlow.pro_mHomeSelectedYear)
+            mHomeViewModel.getCompanyDocumetn()
+
+            if (HomeFlow.sectionBottomID == R.id.homeFrag) {
+                HomeFlow.hometonotification = true
+                HomeFlow.hometoNotificationCurrentFragID = R.id.financialStatementfrag
+            } else if (HomeFlow.sectionBottomID == R.id.countryList) {
+                HomeFlow.countrylist_to_notification = true
+                HomeFlow.financialtoNotificationCurrentFragID = R.id.financialStatementfrag
+            } else if (HomeFlow.sectionBottomID == R.id.forumFrag) {
+                HomeFlow.fourm_to_notification = true
+                HomeFlow.forumtoNotificationCurrentFragID = R.id.financialStatementfrag
+            } else if (HomeFlow.sectionBottomID == R.id.newsFrag) {
+                HomeFlow.news_to_notification = true
+                HomeFlow.newstoNotificationCurrentFragID = R.id.financialStatementfrag
+            } else if (HomeFlow.sectionBottomID == R.id.searchFrag) {
+                HomeFlow.search_to_notification = true
+                HomeFlow.searchtoNotificationCurrentFragID = R.id.financialStatementfrag
+            }
+        }
+
+//
+
+
+
+        else if (HomeFlow.profilefragenable) {
             mperiodselection = HomeFlow.pro_mHomePeriodselection
             mHomeViewModel.mPeriod.value = HomeFlow.pro_mHomePeriodselectionval
             mBinding.periodselection = mperiodselection
@@ -256,7 +306,17 @@ class FinancialStatementfrag : Fragment(), onYearClick, onDocumentClick {
                     mNotificationPeriodselection = 0
                     mNotificationPeriodselectionval = "Annual"
                     mNotificationSelectedYear = ""
-                    findNavController().navigate(R.id.notificationFrag)
+
+                    //changed by nj-4-10-22
+                    if(fromnewssection==1){
+                        findNavController().navigate(R.id.newsFrag)
+                        fromnewssection=0
+                        HomeFlow.newsfragenable = false
+                    }else{
+                        findNavController().navigate(R.id.notificationFrag)
+                    }
+                    //
+                   // findNavController().navigate(R.id.notificationFrag)
                     HomeFlow.notificationfragenable = false
                 } else if (HomeFlow.profilefragenable) {
                     if (HomeFlow.sectionBottomID == R.id.homeFrag) {
@@ -338,9 +398,29 @@ class FinancialStatementfrag : Fragment(), onYearClick, onDocumentClick {
                             mNotificationPeriodselection = 0
                             mNotificationPeriodselectionval = "Annual"
                             mNotificationSelectedYear = ""
-                            findNavController().navigate(R.id.notificationFrag)
+
+                            //changed by nj-4-10-22
+                            if(fromnewssection==1){
+                                findNavController().navigate(R.id.newsFrag)
+                                fromnewssection=0
+                                HomeFlow.newsfragenable = false
+                            }else{
+                                findNavController().navigate(R.id.notificationFrag)
+                            }
+                            //
+                           // findNavController().navigate(R.id.notificationFrag)
                             HomeFlow.notificationfragenable = false
-                        } else if (HomeFlow.profilefragenable) {
+                        }else if(HomeFlow.newsfragenable){
+                            mNewsPeriodselection = 0
+                            mNewsPeriodselectionval = "Annual"
+                            mNewsSelectedYear = ""
+                            findNavController().navigate(R.id.newsFrag)
+                            HomeFlow.newsfragenable = false
+                        }
+
+
+
+                        else if (HomeFlow.profilefragenable) {
                             if (HomeFlow.sectionBottomID == R.id.homeFrag) {
                                 findNavController().navigate(
                                     R.id.action_financialStatementfrag_to_companyDetail,

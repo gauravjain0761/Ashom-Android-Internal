@@ -52,6 +52,8 @@ class CompanyDetail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         loadingDialog()  //for loading dialog
+        ApplyGTMEvent("company_details_view","company_details_view_count","company_details_view")
+
 
 
         if (HomeFlow.profilefragenable) {
@@ -89,6 +91,7 @@ class CompanyDetail : Fragment() {
                     duration = 100
                     start()
                     doOnEnd {
+
                         if (HomeFlow.profilefragenable) {
                             findNavController().navigate(R.id.selectedCompanies)
                         } else if (HomeFlow.sectionBottomID == R.id.homeFrag) {
@@ -181,21 +184,26 @@ class CompanyDetail : Fragment() {
                 mBinding.remainingSubscription.visibility = View.VISIBLE
             }
         }
-
         val args = requireArguments().getString("company_detail")
         if (!args.isNullOrEmpty()) {
             val companydetail = Gson().fromJson(args, CompanyDTO::class.java)
-            Glide.with(AshomAppApplication.instance.applicationContext).load(companydetail.image).into(mBinding.companyDetailComImage)
+            Glide.with(AshomAppApplication.instance.applicationContext).load(companydetail.image)
+                .into(mBinding.companyDetailComImage)
             mBinding.companyName.text = "${companydetail.Company_Name}"
             mBinding.countryName.text = "${companydetail.Country}"
             getRemainingVisit(companydetail.SymbolTicker)
-            if (companydetail.company_status.isNullOrEmpty() || companydetail.company_status != "Suspended") {
+            if (companydetail.company_status.isNullOrEmpty() || !companydetail.company_status.equals(
+                    "Suspended"
+                )
+            ) {
                 if (!companydetail.DelistingDate.isNullOrEmpty()) {
                     mBinding.delisteddate.text = "DELISTED ON ${companydetail.DelistingDate}"
                 }
             } else {
                 mBinding.delisteddate.text = "${companydetail.company_status}  ⛔  "
             }
+
+
 
             if (companydetail.Country.equals("KSA")) {
                 mBinding.countryFlag.setImageResource(R.drawable.ksaflag)

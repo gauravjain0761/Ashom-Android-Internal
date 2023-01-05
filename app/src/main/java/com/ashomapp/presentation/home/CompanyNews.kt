@@ -24,6 +24,7 @@ import com.ashomapp.network.response.dashboard.NewsItemDTO
 import com.ashomapp.presentation.news.NewsPagingAdapter
 import com.ashomapp.presentation.news.NewsViewModel
 import com.ashomapp.presentation.news.onNewItemClick
+import com.ashomapp.utils.ApplyGTMEvent
 import com.ashomapp.utils.hideKeyboard
 import com.ashomapp.utils.notificationcounter
 import com.ashomapp.utils.setanimation
@@ -62,6 +63,8 @@ class CompanyNews : Fragment(), onNewItemClick {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ApplyGTMEvent("company_news_view","company_news_view_count","company_news_view")
+
         if (HomeFlow.profilefragenable){
 
         }

@@ -49,6 +49,8 @@ data class  NOtificationDataNews(
     val date : String,
     @SerializedName("image_url")
     val image_url : String,
+    @SerializedName("metadata")
+    var metadata: String,
     @SerializedName("source")
     val source : String,
     @SerializedName("link")

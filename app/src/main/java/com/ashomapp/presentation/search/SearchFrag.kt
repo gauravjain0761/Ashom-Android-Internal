@@ -31,6 +31,7 @@ import com.ashomapp.presentation.home.CompanyAdapter
 import com.ashomapp.presentation.home.HomeFlow
 import com.ashomapp.presentation.home.HomeViewModel
 import com.ashomapp.presentation.home.onCompanyClick
+import com.ashomapp.utils.ApplyGTMEvent
 import com.ashomapp.utils.hideKeyboard
 import com.ashomapp.utils.notificationcounter
 import com.ashomapp.utils.setanimation
@@ -74,6 +75,8 @@ class SearchFrag : Fragment(), onCompanyClick {
      }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ApplyGTMEvent("search_click","search_click_count","search_click")
+
         HomeFlow.searchcurrentFragID = R.id.searchFrag
         mBinding.mtoolbar.mainBack.visibility = View.GONE
         mBinding.mtoolbar.toolProfile.setOnClickListener {

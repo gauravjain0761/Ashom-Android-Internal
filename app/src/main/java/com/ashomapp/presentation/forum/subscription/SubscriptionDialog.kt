@@ -43,14 +43,15 @@ import java.util.*
 class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
 
     private lateinit var mBinding: FragmentSubscriptionDialogBinding
-    lateinit var billingClient: BillingClient
-    private lateinit var bp: BillingProcessor
+    lateinit var billingClient : BillingClient
+    private lateinit var bp : BillingProcessor
     private lateinit var purchaseInfo: PurchaseInfo
 
     var monthlyamt = ""
     var yearlyamt = ""
-    val skulist = listOf("android.test.purchased")
-
+    val skulist = listOf<String>(
+        "android.test.purchased"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -58,12 +59,14 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
-        mBinding = FragmentSubscriptionDialogBinding.inflate(layoutInflater, container, false).apply {
+        mBinding =
+            FragmentSubscriptionDialogBinding.inflate(layoutInflater, container, false).apply {
                 frag = this@SubscriptionDialog
             }
         return mBinding.root
+
     }
 
 
@@ -75,10 +78,12 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
 
         try {
             Log.d("Subscriptiontype", SharedPrefrenceHelper.user.subscription_type)
+
             val user = SharedPrefrenceHelper.user
-            if (user.subscription_type == "Monthly") {
+            if (user.subscription_type.equals("Monthly")) {
                 mBinding.subcriptionFreePurchase.visibility = View.GONE
                 mBinding.subcriptionMonthlyPurchase.visibility = View.GONE
+
             } else {
                 mBinding.subcriptionFreePurchase.visibility = View.GONE
                 mBinding.subcriptionMonthlyPurchase.visibility = View.VISIBLE
@@ -87,8 +92,8 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
             e.printStackTrace()
         }
 
-        /*  bp = BillingProcessor(AshomAppApplication.instance.applicationContext, "", this)
-          bp.initialize()*/
+      /*  bp = BillingProcessor(AshomAppApplication.instance.applicationContext, "", this)
+        bp.initialize()*/
 
         try {
             /* val args = arguments?.getString("where")
@@ -106,12 +111,12 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
         }
 
         ///IN app product
-        /* val purchaseUpdateListener = PurchasesUpdatedListener{
-                 billingResult, purchases ->
-         }
-         billingClient = BillingClient.newBuilder(AshomAppApplication.instance.applicationContext)
-             .setListener(purchaseUpdateListener)
-             .enablePendingPurchases().build()*/
+       /* val purchaseUpdateListener = PurchasesUpdatedListener{
+                billingResult, purchases ->
+        }
+        billingClient = BillingClient.newBuilder(AshomAppApplication.instance.applicationContext)
+            .setListener(purchaseUpdateListener)
+            .enablePendingPurchases().build()*/
 
         bp = BillingProcessor(requireActivity(),
             PLAYSTORE_LICENCE_KEY,
@@ -119,12 +124,12 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
         bp.initialize()
 
         mBinding.subcriptionYearlyPurchase.setOnClickListener {
-            // yearlysubscription()
-            // onPurchasedClick(it)
-            bp.subscribe(requireActivity(), "com.ashom.yearly.subscriptions")
+           // yearlysubscription()
+           // onPurchasedClick(it)
+            bp.subscribe(requireActivity(),"com.ashom.yearly.subscriptions")
         }
         mBinding.subcriptionMonthlyPurchase.setOnClickListener {
-            bp.subscribe(requireActivity(), "com.ashom.monthlly.subscription")
+            bp.subscribe(requireActivity(),"com.ashom.monthlly.subscription")
         }
 
     }
@@ -169,9 +174,7 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
 
 
         //    val date = formatDateFromDateString("YYYY-mm-dd","YYYY-MM-DD","$year-$month-$day")
-        submitSubscription("$year-$mmonth-$day",
-            "Monthly",
-            "${monthlyamt.filter { it.isDigit() || it == '.' }}")
+        submitSubscription("$year-$mmonth-$day", "Monthly", "${monthlyamt.filter { it.isDigit()  || it == '.' }}")
         Log.d("expire_date", "$year-$mmonth-$day")
     }
 
@@ -179,7 +182,7 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
         val c = Calendar.getInstance()
         c.add(Calendar.MONTH, 2)
         val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
+        var month = c.get(Calendar.MONTH)
 
         val day = if (c.get(Calendar.DAY_OF_MONTH) > 9) {
             c.get(Calendar.DAY_OF_MONTH)
@@ -203,8 +206,8 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
         // c.add(Calendar.MONTH, 1)
         c.add(Calendar.YEAR, 1)
 
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH) + 1
+        var year = c.get(Calendar.YEAR)
+        var month = c.get(Calendar.MONTH) + 1
         val mmonth = if (month > 9) {
             month
         } else {
@@ -219,33 +222,32 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
 
         Log.d("expire_date", "$year-$mmonth-$day")
 
-        submitSubscription("$year-$mmonth-$day",
-            "Yearly",
-            "${yearlyamt.filter { it.isDigit() || it == '.' }}")
+        submitSubscription("$year-$mmonth-$day", "Yearly", "${yearlyamt.filter { it.isDigit()  || it == '.' }}")
     }
 
     fun onPurchasedClick(view: View) {
-        billingClient.startConnection(object : BillingClientStateListener {
+        billingClient.startConnection(object  : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK){
                     val params = SkuDetailsParams.newBuilder()
                     params.setSkusList(skulist)
                         .setType(BillingClient.SkuType.INAPP)
-                    billingClient.querySkuDetailsAsync(params.build()) { billingResult, skuDetailList ->
+                    billingClient.querySkuDetailsAsync(params.build()){
+                            billingResult, skuDetailList ->
 
-                        for (skudetaillist in skuDetailList!!) {
+                        for(skudetaillist  in skuDetailList!!){
                             val flowpurchase = BillingFlowParams.newBuilder()
                                 .setSkuDetails(skudetaillist)
                                 .build()
-                            val responsecode =
-                                billingClient.launchBillingFlow(requireActivity(), flowpurchase)
+                            val responsecode  =
+                                billingClient.launchBillingFlow(requireActivity(),flowpurchase)
                                     .responseCode
                         }
                     }
                 }
             }
 
-            override fun onBillingServiceDisconnected() {}
+            override fun onBillingServiceDisconnected() { }
 
         })
     }
@@ -321,15 +323,15 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
     }
 
     override fun onProductPurchased(productId: String, details: PurchaseInfo?) {
-        if (productId == "com.ashom.monthlly.subscription") {
+        if (productId == "com.ashom.monthlly.subscription"){
             monthlysubscription()
-        } else if (productId == "com.ashom.yearly.subscriptions") {
+        }else if (productId == "com.ashom.yearly.subscriptions"){
             yearlysubscription()
         }
 
     }
 
-    override fun onPurchaseHistoryRestored() {}
+    override fun onPurchaseHistoryRestored() { }
 
     override fun onBillingError(errorCode: Int, error: Throwable?) {
 
@@ -339,41 +341,38 @@ class SubscriptionDialog : DialogFragment(), BillingProcessor.IBillingHandler {
         val subSku: MutableList<String> = ArrayList()
         subSku.add("com.ashom.yearly.subscriptions")
         subSku.add("com.ashom.monthlly.subscription")
-        bp.getSubscriptionsListingDetailsAsync(subSku as ArrayList<String>?,
-            object : BillingProcessor.ISkuDetailsResponseListener {
-                override fun onSkuDetailsResponse(products: MutableList<SkuDetails>?) {
-                    Log.d("subscriptionerr11", products!!.map { it.priceText }.toString())
-                    try {
-                        Log.d("subscriptionerr11", products!!.map { it.productId }.toString())
+        bp.getSubscriptionsListingDetailsAsync(subSku as ArrayList<String>?, object  : BillingProcessor.ISkuDetailsResponseListener{
+            override fun onSkuDetailsResponse(products: MutableList<SkuDetails>?) {
+                Log.d("subscriptionerr11", products!!.map { it.priceText }.toString())
+                try {
+                    Log.d("subscriptionerr11", products!!.map { it.productId }.toString())
 
-                        monthlyamt = "${products.map { it.priceText }[0]}"
-                        yearlyamt = "${products.map { it.priceText }[1]}"
-                        mBinding.subsMonthlyTimeperiod.text =
-                            "${products.map { it.priceText }[0]}/ Monthly"
-                        mBinding.subsYearlyTimeperiod.text =
-                            "${products.map { it.priceText }[1]}/ Yearly"
+                    monthlyamt = "${products.map { it.priceText }[0]}"
+                    yearlyamt = "${products.map { it.priceText }[1]}"
+                    mBinding.subsMonthlyTimeperiod.text = "${products.map { it.priceText }[0]}/ Monthly"
+                    mBinding.subsYearlyTimeperiod.text = "${products.map { it.priceText }[1]}/ Yearly"
 
-                        val region = products.map { it.currency }
-                        mBinding.subsFreeTimeperiod.text =
-                            "${products.map { it.currency }[0]} 0/ Montly"
-                        Log.d("currenyashom", region.toString())
+                    val region = products.map { it.currency }
+                    mBinding.subsFreeTimeperiod.text = "${products.map { it.currency }[0]} 0/ Montly"
+                    Log.d("currenyashom", region.toString())
 
-                    } catch (e: Exception) {
-                        Log.d("subscriptionerr", e.message.toString())
-                    }
+                }catch (e :Exception){
+                    Log.d("subscriptionerr", e.message.toString())
                 }
+            }
 
-                override fun onSkuDetailsError(error: String?) {
-                    Log.d("subscriptionerr", error.toString())
-                }
+            override fun onSkuDetailsError(error: String?) {
+                Log.d("subscriptionerr", error.toString())
+            }
 
-            })
+        })
     }
+
 
 
     override fun onDestroy() {
         super.onDestroy()
-        if (bp != null) {
+        if (bp != null){
             bp.release()
         }
     }

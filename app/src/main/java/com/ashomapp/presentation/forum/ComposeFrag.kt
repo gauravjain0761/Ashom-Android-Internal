@@ -31,6 +31,7 @@ import com.ashomapp.network.response.dashboard.ForumDTO
 import com.ashomapp.network.response.dashboard.NewsItemDTO
 import com.ashomapp.presentation.auth.NetworkState
 import com.ashomapp.presentation.home.HomeFlow
+import com.ashomapp.utils.ApplyGTMEvent
 import com.ashomapp.utils.FileUtils
 import com.ashomapp.utils.hideKeyboard
 import com.ashomapp.utils.showKeyboard
@@ -140,6 +141,8 @@ class ComposeFrag : Fragment() {
                     }
                 }
                 NetworkState.SUCCESS -> {
+                    ApplyGTMEvent("posted_compose_forum","posted_compose_forum_count","posted_compose_forum")
+
                     mBinding.postForum.apply {
                         hideProgress("Post")
                         isClickable = true
@@ -159,7 +162,6 @@ class ComposeFrag : Fragment() {
                         isClickable = true
                     }
                 }
-                else -> {}
             }
         }
         mBinding.postForum.setOnClickListener {
